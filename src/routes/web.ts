@@ -12,7 +12,7 @@ const webRoutes = (app: Express) => {
 
   router.get("/create-user", getCreateUserPage);
 
-  router.post("/create-user", postCreateUserPage);
+  router.post("/handle-create-user", postCreateUserPage);
 
   app.use("/", router);
 };

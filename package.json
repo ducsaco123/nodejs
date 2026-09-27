@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/ducsaco123/nodejs/issues"
   },
-  "homepage": "https://github.com/ducsaco123/nodejs#readme"
+  "homepage": "https://github.com/ducsaco123/nodejs#readme",
+  "dependencies": {
+    "express": "5.0.1"
+  }
 }

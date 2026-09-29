@@ -3,6 +3,7 @@ import {
   getAllUsers,
   handleCreateUser,
   handleDeleteUser,
+  handleUpdateUser,
   handleViewUser,
 } from "services/user.service";
 
@@ -44,10 +45,18 @@ const viewUserPage = async (req: Request, res: Response) => {
   const user = await handleViewUser(id);
   return res.render("view-user", { id, user });
 };
+
+const updateUserPage = async (req: Request, res: Response) => {
+  const { id, fullName, email, address } = req.body;
+
+  await handleUpdateUser(id, fullName, email, address);
+  return res.redirect("/");
+};
 export {
   getHomePage,
   getCreateUserPage,
   postCreateUserPage,
   deleteUserPage,
   viewUserPage,
+  updateUserPage,
 };

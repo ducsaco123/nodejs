@@ -4,6 +4,7 @@ import {
   getCreateUserPage,
   getHomePage,
   postCreateUserPage,
+  updateUserPage,
   viewUserPage,
 } from "controllers/users.controller";
 
@@ -19,6 +20,8 @@ const webRoutes = (app: Express) => {
   router.post("/handle-delete-user/:id", deleteUserPage);
 
   router.get("/handle-view-user/:id", viewUserPage);
+
+  router.post("/handle-update-user", updateUserPage);
 
   app.use("/", router);
 };

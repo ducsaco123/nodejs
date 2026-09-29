@@ -20,8 +20,6 @@ app.use(express.static("public"));
 //config routes
 webRoutes(app);
 
-getConnection();
-
 app.listen(port, () => {
   console.log(`My app is running on port: ${port}`);
   console.log("env port: ", process.env.PORT);

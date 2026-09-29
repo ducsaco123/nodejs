@@ -43,4 +43,18 @@ const handleDeleteUser = async (userId: string) => {
   }
 };
 
-export { handleCreateUser, getAllUsers, handleDeleteUser };
+const handleViewUser = async (userId: string) => {
+  try {
+    const connection = await getConnection();
+    const sql = "SELECT * FROM `users` WHERE `id` = ?";
+    const values = [userId];
+    const [result, fields] = await connection.execute(sql, values);
+
+    return result[0];
+  } catch (error) {
+    console.log(error);
+    return [];
+  }
+};
+
+export { handleCreateUser, getAllUsers, handleDeleteUser, handleViewUser };

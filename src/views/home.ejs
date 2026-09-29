@@ -48,9 +48,14 @@
               <td><%= users[i].email %></td>
               <td><%= users[i].address %></td>
               <td>
-                <form action="/handle-delete-user/<%= users[i].id %>" method="POST">
-                  <button class="btn btn-danger" type="submit">Delete</button>
-                </form>
+                <div style="display: flex; gap: 10px;">
+                  <form action="/handle-view-user/<%= users[i].id %>" method="GET">
+                    <button class="btn btn-warning" type="submit">View</button>
+                  </form>
+                  <form action="/handle-delete-user/<%= users[i].id %>" method="POST">
+                    <button class="btn btn-danger" type="submit">Delete</button>
+                  </form>
+                </div>
               </td>
             </tr>
             <% } %>

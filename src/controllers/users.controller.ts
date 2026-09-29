@@ -3,6 +3,7 @@ import {
   getAllUsers,
   handleCreateUser,
   handleDeleteUser,
+  handleViewUser,
 } from "services/user.service";
 
 const getHomePage = async (req: Request, res: Response) => {
@@ -33,4 +34,20 @@ const deleteUserPage = async (req: Request, res: Response) => {
   await handleDeleteUser(id);
   return res.redirect("/");
 };
-export { getHomePage, getCreateUserPage, postCreateUserPage, deleteUserPage };
+
+const viewUserPage = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    return res.status(400).send("Invalid user ID");
+  }
+  const user = await handleViewUser(id);
+  return res.render("view-user", { id, user });
+};
+export {
+  getHomePage,
+  getCreateUserPage,
+  postCreateUserPage,
+  deleteUserPage,
+  viewUserPage,
+};

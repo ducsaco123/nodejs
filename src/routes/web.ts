@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import {
+  deleteUserPage,
   getCreateUserPage,
   getHomePage,
   postCreateUserPage,
@@ -13,6 +14,8 @@ const webRoutes = (app: Express) => {
   router.get("/create-user", getCreateUserPage);
 
   router.post("/handle-create-user", postCreateUserPage);
+
+  router.post("/handle-delete-user/:id", deleteUserPage);
 
   app.use("/", router);
 };

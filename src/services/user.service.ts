@@ -14,9 +14,10 @@ const handleCreateUser = async (
   address: string,
   phone: string,
   avatar: string,
+  role: string,
 ) => {
   const defaultPassword = await hashPassword("123456");
-  await prisma.user.create({
+  const newUser = await prisma.user.create({
     data: {
       fullName,
       username,
@@ -25,8 +26,10 @@ const handleCreateUser = async (
       address,
       phone,
       avatar,
+      roleId: +role,
     },
   });
+  return newUser;
 };
 
 const getAllUsers = async () => {

@@ -1,6 +1,12 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { prisma } from "config/client";
 import { ACCOUNT_TYPE } from "config/constant";
+import bcrypt from "bcrypt";
+
+const saltRounds = 10;
+const hashPassword = async (plaintText: string) => {
+  return await bcrypt.hash(plaintText, saltRounds);
+};
 
 const handleCreateUser = async (
   fullName: string,
@@ -9,11 +15,12 @@ const handleCreateUser = async (
   phone: string,
   avatar: string,
 ) => {
+  const defaultPassword = await hashPassword("123456");
   await prisma.user.create({
     data: {
       fullName,
       username,
-      password: "123456",
+      password: defaultPassword,
       accountType: ACCOUNT_TYPE.SYSTEM,
       address,
       phone,
@@ -73,4 +80,5 @@ export {
   handleViewUser,
   handleUpdateUser,
   getAllRoles,
+  hashPassword,
 };

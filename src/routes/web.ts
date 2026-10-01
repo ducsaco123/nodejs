@@ -14,6 +14,7 @@ import {
   getDashboardPage,
 } from "controllers/admin/dashboard.controller";
 import fileUploadMiddleware from "src/middleware/multer";
+import { getDetailProductPage } from "controllers/product/products.controller";
 
 const router = express.Router();
 const multer = require("multer");
@@ -43,6 +44,8 @@ const webRoutes = (app: Express) => {
   router.get("/admin/order", getAdminOrderPage);
   router.get("/admin/product", getAdminProductPage);
 
+  //routes product
+  router.get("/product/:id", getDetailProductPage);
   app.use("/", router);
 };
 

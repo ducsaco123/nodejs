@@ -59,17 +59,19 @@ const handleViewUser = async (userId: string) => {
 const handleUpdateUser = async (
   userId: string,
   fullName: string,
-  email: string,
+  phone: string,
+  role: string,
   address: string,
+  avatar: string,
 ) => {
   const updatedUser = await prisma.user.update({
     where: { id: parseInt(userId) },
     data: {
       fullName,
-      username: email,
+      phone,
+      roleId: parseInt(role),
       address,
-      password: "",
-      accountType: "",
+      ...(avatar !== undefined && { avatar }),
     },
   });
 

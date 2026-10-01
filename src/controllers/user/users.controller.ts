@@ -37,7 +37,7 @@ const deleteUserPage = async (req: Request, res: Response) => {
     return res.status(400).send("Invalid user ID");
   }
   await handleDeleteUser(id);
-  return res.redirect("/");
+  return res.redirect("/admin/user");
 };
 
 const viewUserPage = async (req: Request, res: Response) => {
@@ -47,14 +47,17 @@ const viewUserPage = async (req: Request, res: Response) => {
     return res.status(400).send("Invalid user ID");
   }
   const user = await handleViewUser(id);
-  return res.render("view-user", { id, user });
+  const roles = await getAllRoles();
+  return res.render("admin/user/detail.ejs", { id, user, roles });
 };
 
 const updateUserPage = async (req: Request, res: Response) => {
-  const { id, fullName, email, address } = req.body;
+  const { id, fullName, phone, role, address } = req.body;
+  const file = req.file;
+  const avatar = file?.filename ?? undefined;
 
-  await handleUpdateUser(id, fullName, email, address);
-  return res.redirect("/");
+  await handleUpdateUser(id, fullName, phone, role, address, avatar);
+  return res.redirect("/admin/user");
 };
 export {
   getHomePage,

@@ -34,7 +34,11 @@ const webRoutes = (app: Express) => {
   );
   router.post("/admin/handle-delete-user/:id", deleteUserPage);
   router.get("/admin/handle-view-user/:id", viewUserPage);
-  router.post("/admin/handle-update-user", updateUserPage);
+  router.post(
+    "/admin/handle-update-user",
+    fileUploadMiddleware("avatar"),
+    updateUserPage,
+  );
 
   router.get("/admin/order", getAdminOrderPage);
   router.get("/admin/product", getAdminProductPage);

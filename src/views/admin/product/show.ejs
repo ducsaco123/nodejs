@@ -27,9 +27,53 @@
             <h1 class="mt-4">Manage Products</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-              <li class="breadcrumb-item active">Users</li>
+              <li class="breadcrumb-item active">
+                <a href="/admin/product">Products</a>
+              </li>
             </ol>
-            <div>table user</div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h5>Table products:</h5>
+              <div>
+                <a href="/admin/create-product" class="btn btn-warning">Create a new product</a>
+              </div>
+            </div>
+            
+            <hr />
+
+            <div>
+              <table class="table table-hover table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>factory</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for (let i = 0; i < products.length; i++){ %>
+                    <tr>
+                      <td><%= products[i].id %></td>
+                      <td><%= products[i].fullName %></td>
+                      <td><%= products[i].price %></td>
+                      <td><%= products[i].factory %></td>
+                      <td>
+                        <div style="display: flex; gap: 10px;">
+                          <form action="/admin/handle-view-user/<%= products[i].id %>" method="GET">
+                            <button class="btn btn-warning" type="submit">View</button>
+                          </form>
+                          <form action="/admin/handle-delete-user/<%= products[i].id %>" method="POST">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                          </form>
+                        </div>
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+
           </div>
         </main>
         <%- include('../layout/footer') -%>

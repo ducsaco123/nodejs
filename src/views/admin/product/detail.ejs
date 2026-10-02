@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,8 +8,9 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <title>Create Product</title>
+    <title>Chỉnh sửa sản phẩm | Laptopshop</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
+    <link href="/admin/css/modern.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
@@ -27,7 +28,7 @@
     </script>
   </head>
 
-  <body class="sb-nav-fixed">
+  <body class="sb-nav-fixed admin-product">
     <%- include('../layout/header') -%>
 
     <div id="layoutSidenav">
@@ -35,22 +36,22 @@
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage Products</h1>
+            <div class="admin-page-heading"><span class="admin-eyebrow">QUẢN LÝ</span><h1>Chỉnh sửa sản phẩm</h1><p>Cập nhật thông tin hiện có.</p></div>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
               <li class="breadcrumb-item active">
-                <a href="/admin/product">Products</a>
+                <a href="/admin/product">Sản phẩm</a>
               </li>
             </ol>
             <div class="row">
-              <div class="col-6 mx-auto">
-                <div>
+              <div class="col-12 col-xl-9 mx-auto">
+                <div class="admin-form-card">
                   <% errors.forEach((error) => { %>
                     <div class="alert alert-danger mb-3">
                       <%= error %>
                     </div>
                   <% }); %>
-                  <h5 style="padding: 10px 0">View a product</h5>
+                  <h5>Thông tin sản phẩm</h5>
                   <form
                     action="/admin/handle-update-product"
                     method="post"
@@ -58,8 +59,8 @@
                   >
                   <div class="row">
                         <input type="hidden" name="id" value="<%= product.id %>">
-                      <div class="mb-3 col-6">
-                        <label class="form-label">Name</label>
+                      <div class="mb-3 col-md-6">
+                        <label class="form-label">Tên sản phẩm</label>
                         <input
                           value="<%= product.name%>"
                           name="name"
@@ -67,8 +68,8 @@
                           class="form-control"
                         />
                       </div>
-                      <div class="mb-3 col-6">
-                        <label class="form-label">Price</label>
+                      <div class="mb-3 col-md-6">
+                        <label class="form-label">Giá bán (VND)</label>
                         <input
                           value="<%= product.price%>"
                           name="price"
@@ -78,14 +79,14 @@
                       </div>
                   </div>
                     <div class="mb-3">
-                      <label class="form-label">Detail Description</label>
+                      <label class="form-label">Mô tả chi tiết</label>
                       <textarea name="detailDesc"
                         type="text"
                         class="form-control" rows="2" ><%= product.detailDesc%></textarea>    
                     </div>
                     <div class="row">
-                      <div class="mb-3 col-6">
-                        <label class="form-label">Short Description</label>
+                      <div class="mb-3 col-md-6">
+                        <label class="form-label">Mô tả ngắn</label>
                         <input
                           value="<%= product.shortDesc%>"
                           type="text"
@@ -93,8 +94,8 @@
                           name="shortDesc"
                         />
                       </div>
-                      <div class="mb-3 col-6">
-                        <label class="form-label">Quantity</label>
+                      <div class="mb-3 col-md-6">
+                        <label class="form-label">Số lượng</label>
                         <input
                           value="<%= product.quantity%>"
                           name="quantity"
@@ -102,9 +103,10 @@
                           class="form-control"
                       />
                     </div>
+                    </div>
                     <div class="row">
-                        <div class="mb-3 col-6">
-                        <label class="form-label">Factory</label>
+                        <div class="mb-3 col-md-6">
+                        <label class="form-label">Hãng sản xuất</label>
                         <select name="factory" class="form-select">
                             <% factoryOptions.forEach((fact,index) => { %>
                             <option value="<%-fact.value %>" <%= fact.value === product.factory ? 'selected' : '' %>>
@@ -113,8 +115,8 @@
                             <%})%>
                         </select>
                     </div>
-                        <div class="mb-3 col-6">
-                            <label class="form-label">Target</label>
+                        <div class="mb-3 col-md-6">
+                            <label class="form-label">Nhu cầu sử dụng</label>
                             <select name="target" class="form-select">
                                  <% targetOptions.forEach((target,index) => { %>
                             <option value="<%-target.value %>" <%= target.value === product.target ? 'selected' : '' %>>
@@ -126,7 +128,7 @@
                     </div>
 
                     <div class="mb-3">
-                      <label for="formFile" class="form-label">Image</label>
+                      <label for="imageFile" class="form-label">Hình ảnh</label>
                       <input
                         class="form-control"
                         type="file"
@@ -151,7 +153,7 @@
                     <% } %>
                     <div class="mb-3">
                       <button class="btn btn-primary mt-3" type="submit">
-                        Submit
+                        Lưu thay đổi
                       </button>
                     </div>
                   </form>

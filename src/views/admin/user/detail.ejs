@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,8 +8,9 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <title>Detail User</title>
+    <title>Chỉnh sửa người dùng | Laptopshop</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
+    <link href="/admin/css/modern.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
@@ -27,7 +28,7 @@
     </script>
   </head>
 
-  <body class="sb-nav-fixed">
+  <body class="sb-nav-fixed admin-user">
     <%- include('../layout/header') -%>
 
     <div id="layoutSidenav">
@@ -35,17 +36,17 @@
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage Users</h1>
+            <div class="admin-page-heading"><span class="admin-eyebrow">QUẢN LÝ</span><h1>Chỉnh sửa người dùng</h1><p>Cập nhật thông tin hiện có.</p></div>
             <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+              <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
               <li class="breadcrumb-item active">
-                <a href="/admin/user">Users</a>
+                <a href="/admin/user">Người dùng</a>
               </li>
             </ol>
             <div class="row">
-              <div class="col-6 mx-auto">
-                <div>
-                  <h5 style="padding: 10px 0">Detail a user</h5>
+              <div class="col-12 col-xl-9 mx-auto">
+                <div class="admin-form-card">
+                  <h5>Thông tin người dùng</h5>
                   <form
                     action="/admin/handle-update-user"
                     method="post"
@@ -53,13 +54,13 @@
                   >
                     <input type="hidden" name="id" value="<%= user.id %>">
                     <div class="mb-3">
-                      <label class="form-label">Full Name</label>
+                      <label class="form-label">Họ và tên</label>
                       <input
                         name="fullName"
                         value="<%= user.fullName %>"
                         type="text"
                         class="form-control"
-                        placeholder="John Doe"
+                        placeholder="Nguyễn Văn A"
                       />
                     </div>
                     <div class="mb-3">
@@ -74,8 +75,8 @@
                       />
                     </div>
                     <div class="row">
-                      <div class="mb-3 col-6">
-                        <label class="form-label">Phone</label>
+                      <div class="mb-3 col-md-6">
+                        <label class="form-label">Số điện thoại</label>
                         <input
                           type="text"
                           class="form-control"
@@ -83,8 +84,8 @@
                           value="<%= user.phone%>"
                         />
                       </div>
-                      <div class="mb-3 col-6">
-                          <label class="form-label">Role</label>
+                      <div class="mb-3 col-md-6">
+                          <label class="form-label">Vai trò</label>
                           <select name="role" class="form-select">
                             <% roles.forEach((role,index) => { %>
                             <option value="<%-role.id %>" <%= role.id === user.roleId ? 'selected' : '' %>>
@@ -95,17 +96,17 @@
                         </div>
                     </div>
                     <div class="mb-3">
-                      <label class="form-label">Address</label>
+                      <label class="form-label">Địa chỉ</label>
                       <input
                         name="address"
                         type="text"
                         class="form-control"
-                        placeholder="123 Main St"
+                        placeholder="Địa chỉ của người dùng"
                         value="<%= user.address %>"
                       />
                     </div>
                     <div class="mb-3">
-                      <label for="formFile" class="form-label">Avatar</label>
+                      <label for="avatarFile" class="form-label">Ảnh đại diện</label>
                       <input
                         class="form-control"
                         type="file"
@@ -130,7 +131,7 @@
                     <% } %>
                     <div class="mb-3">
                       <button class="btn btn-primary" type="submit">
-                        Update
+                        Lưu thay đổi
                       </button>
                     </div>
                   </form>

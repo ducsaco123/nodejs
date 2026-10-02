@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,15 +8,16 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <title>Manage User</title>
+    <title>Người dùng | Laptopshop</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
+    <link href="/admin/css/modern.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
   </head>
 
-  <body class="sb-nav-fixed">
+  <body class="sb-nav-fixed admin-user">
     <%- include('../layout/header') -%>
 
     <div id="layoutSidenav">
@@ -24,29 +25,17 @@
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage Users</h1>
-            <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-            </ol>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <h5>Table users:</h5>
-              <div>
-                <a href="/admin/create-user" class="btn btn-warning">Create a new user</a>
-              </div>
-            </div>
-            
-            <hr />
-
-            <div>
-              <table class="table table-hover table-bordered">
+            <div class="admin-page-heading"><span class="admin-eyebrow">QUẢN LÝ</span><h1>Người dùng</h1><p>Xem và cập nhật thông tin người dùng của cửa hàng.</p></div>
+            <div class="admin-content-card">
+              <div class="admin-card-heading"><div><h2>Danh sách người dùng</h2><span><%= users.length %> người dùng</span></div><a href="/admin/create-user" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Thêm người dùng</a></div>
+              <div class="table-responsive"><table class="table table-hover align-middle">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Họ tên</th>
                     <th>Email</th>
-                    <th>Address</th>
-                    <th>Actions</th>
+                    <th>Địa chỉ</th>
+                    <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -57,19 +46,20 @@
                       <td><%= users[i].username %></td>
                       <td><%= users[i].address %></td>
                       <td>
-                        <div style="display: flex; gap: 10px;">
+                        <div class="admin-table-actions">
                           <form action="/admin/handle-view-user/<%= users[i].id %>" method="GET">
-                            <button class="btn btn-warning" type="submit">View</button>
+                            <button class="btn btn-outline-primary btn-sm" type="submit">Chi tiết</button>
                           </form>
                           <form action="/admin/handle-delete-user/<%= users[i].id %>" method="POST">
-                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Xóa</button>
                           </form>
                         </div>
                       </td>
                     </tr>
                   <% } %>
+                  <% if (!users.length) { %><tr><td colspan="5" class="admin-table-empty">Chưa có người dùng. Hãy thêm người dùng đầu tiên.</td></tr><% } %>
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
           </div>

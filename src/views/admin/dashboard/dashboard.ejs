@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,19 +8,16 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <title>Dashboard Admin</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css"
-      rel="stylesheet"
-    />
+    <title>Bảng điều khiển | Laptopshop</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
+    <link href="/admin/css/modern.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
   </head>
 
-  <body class="sb-nav-fixed">
+  <body class="sb-nav-fixed admin-dashboard">
     <%- include('../layout/header') -%>
 
     <div id="layoutSidenav">
@@ -28,71 +25,11 @@
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
-            <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-            <div class="row">
-              <div class="col-xl-3 col-md-6">
-                <div class="card bg-primary text-white mb-4">
-                  <div class="card-body">Primary Card</div>
-                  <div
-                    class="card-footer d-flex align-items-center justify-content-between"
-                  >
-                    <a class="small text-white stretched-link" href="#"
-                      >View Details</a
-                    >
-                    <div class="small text-white">
-                      <i class="fas fa-angle-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-md-6">
-                <div class="card bg-warning text-white mb-4">
-                  <div class="card-body">Warning Card</div>
-                  <div
-                    class="card-footer d-flex align-items-center justify-content-between"
-                  >
-                    <a class="small text-white stretched-link" href="#"
-                      >View Details</a
-                    >
-                    <div class="small text-white">
-                      <i class="fas fa-angle-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-md-6">
-                <div class="card bg-success text-white mb-4">
-                  <div class="card-body">Success Card</div>
-                  <div
-                    class="card-footer d-flex align-items-center justify-content-between"
-                  >
-                    <a class="small text-white stretched-link" href="#"
-                      >View Details</a
-                    >
-                    <div class="small text-white">
-                      <i class="fas fa-angle-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-xl-3 col-md-6">
-                <div class="card bg-danger text-white mb-4">
-                  <div class="card-body">Danger Card</div>
-                  <div
-                    class="card-footer d-flex align-items-center justify-content-between"
-                  >
-                    <a class="small text-white stretched-link" href="#"
-                      >View Details</a
-                    >
-                    <div class="small text-white">
-                      <i class="fas fa-angle-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="admin-page-heading"><span class="admin-eyebrow">TỔNG QUAN</span><h1>Bảng điều khiển</h1><p>Chọn khu vực bạn muốn quản lý trong Laptopshop.</p></div>
+            <div class="row g-4">
+              <div class="col-md-6 col-xl-4"><a class="admin-dashboard-card" href="/admin/user"><span class="admin-dashboard-icon"><i class="fas fa-users"></i></span><span class="admin-dashboard-label">QUẢN LÝ</span><h2>Người dùng</h2><p>Xem danh sách và cập nhật thông tin người dùng.</p><span class="admin-dashboard-link">Mở danh sách <i class="fas fa-arrow-right"></i></span></a></div>
+              <div class="col-md-6 col-xl-4"><a class="admin-dashboard-card" href="/admin/product"><span class="admin-dashboard-icon"><i class="fas fa-laptop"></i></span><span class="admin-dashboard-label">DANH MỤC</span><h2>Sản phẩm</h2><p>Quản lý laptop và nội dung hiển thị tại cửa hàng.</p><span class="admin-dashboard-link">Mở danh sách <i class="fas fa-arrow-right"></i></span></a></div>
+              <div class="col-md-6 col-xl-4"><a class="admin-dashboard-card" href="/admin/order"><span class="admin-dashboard-icon"><i class="fas fa-box"></i></span><span class="admin-dashboard-label">THEO DÕI</span><h2>Đơn hàng</h2><p>Truy cập khu vực quản lý đơn hàng.</p><span class="admin-dashboard-link">Mở trang <i class="fas fa-arrow-right"></i></span></a></div>
             </div>
           </div>
         </main>
@@ -104,16 +41,5 @@
       crossorigin="anonymous"
     ></script>
     <script src="/admin/js/scripts.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/admin/assets/demo/chart-area-demo.js"></script>
-    <script src="/admin/assets/demo/chart-bar-demo.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/admin/js/datatables-simple-demo.js"></script>
   </body>
 </html>

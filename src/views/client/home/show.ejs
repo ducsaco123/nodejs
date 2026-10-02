@@ -1,174 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <title>Laptopshop</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta content="" name="keywords" />
-    <meta content="" name="description" />
-
-    <!-- Google Web Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Khám phá laptop tại Laptopshop" />
+    <title>Laptopshop | Khám phá laptop phù hợp với bạn</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Icon Font Stylesheet -->
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
-
-    <!-- Libraries Stylesheet -->
-    <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
-    <link
-      href="/client/lib/owlcarousel/assets/owl.carousel.min.css"
-      rel="stylesheet"
-    />
-
-    <!-- Customized Bootstrap Stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link href="/client/css/bootstrap.min.css" rel="stylesheet" />
-
-    <!-- Template Stylesheet -->
     <link href="/client/css/style.css" rel="stylesheet" />
+    <link href="/client/css/modern.css" rel="stylesheet" />
   </head>
-
-  <body>
-    <!-- Spinner Start -->
-    <div
-      id="spinner"
-      class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50 d-flex align-items-center justify-content-center"
-    >
-      <div class="spinner-grow text-primary" role="status"></div>
-    </div>
-    <!-- Spinner End -->
-
-    <!-- Navbar start -->
+  <body class="storefront">
     <%- include('../layout/header') -%>
-    <!-- Navbar End -->
-
-    <!-- Hero Start -->
-    <%- include('../layout/banner') -%>
-    <!-- Hero End -->
-
-    <!-- Features Section Start -->
-    <%- include('../layout/feature') -%>
-    <!-- Features Section End -->
-
-    <!-- Fruits Shop Start-->
-    <div class="container-fluid fruite py-5">
-      <div class="container py-5">
-        <div class="tab-class text-center">
+    <main>
+      <%- include('../layout/banner') -%>
+      <%- include('../layout/feature') -%>
+      <section class="catalog-section" id="san-pham">
+        <div class="container">
+          <div class="catalog-heading">
+            <div><span class="section-kicker">KHÁM PHÁ BỘ SƯU TẬP</span><h2>Laptop nổi bật</h2><p>Chọn chiếc máy phù hợp với công việc và phong cách của bạn.</p></div>
+            <span class="catalog-count"><%= products.length %> sản phẩm</span>
+          </div>
           <div class="row g-4">
-            <div class="col-lg-4 text-start">
-              <h1>Sản phẩm nổi bật</h1>
-            </div>
-            <div class="col-lg-8 text-end">
-              <ul class="nav nav-pills d-inline-flex text-center mb-5">
-                <li class="nav-item">
-                  <a
-                    class="d-flex m-2 py-2 bg-light rounded-pill active"
-                    data-bs-toggle="pill"
-                    href="#tab-1"
-                  >
-                    <span class="text-dark" style="width: 130px"
-                      >All Products</span
-                    >
+            <% products.forEach((product) => { %>
+              <div class="col-sm-6 col-lg-4 col-xl-3">
+                <article class="product-card">
+                  <a class="product-image" href="/product/<%= product.id %>" aria-label="Xem chi tiết <%= product.name %>">
+                    <span class="product-chip">Laptop</span>
+                    <img src="/images/product/<%= product.image %>" alt="<%= product.name %>" loading="lazy" />
                   </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="tab-content">
-            <div id="tab-1" class="tab-pane fade show p-0 active">
-              <div class="row g-4">
-                <div class="col-lg-12">
-                  <div class="row g-4">
-                    <% products.forEach((product) => { %>
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                      <div class="rounded position-relative fruite-item">
-                        <div class="fruite-img">
-                          <img
-                            src="/images/product/<%= product.image %>"
-                            class="img-fluid w-100 rounded-top"
-                            alt=""
-                          />
-                        </div>
-                        <div
-                          class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-                          style="top: 10px; left: 10px"
-                        >
-                          Laptop
-                        </div>
-                        <div
-                          class="p-4 border border-secondary border-top-0 rounded-bottom"
-                        >
-                          <h4 style="font-size: 15px;">
-                            <a href="/product/<%= product.id %>">
-                              <%= product.name %>
-                            </a>
-                          </h4>
-                          <p style="font-size: 13px;">
-                            <%= product.shortDesc %>
-                          </p>
-                          <div
-                            class="d-flex flex-lg-wrap"
-                          >
-                            <p style="font-size: 15px; text-align: center; width: 100%;" class="text-dark fs-5 fw-bold mb-0">
-                              <%= new Intl.NumberFormat('vi-VN', {
-                                style: 'currency' , currency: 'VND'
-                                }).format(product.price) %>  
-
-                            </p>
-                            <a
-                              href="#"
-                              class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"
-                              ><i
-                                class="fa fa-shopping-bag me-2 text-primary"
-                              ></i>
-                              Add to cart</a
-                            >
-                          </div>
-                        </div>
-                      </div>
+                  <div class="product-card-body">
+                    <span class="product-eyebrow"><%= product.factory %></span>
+                    <h3><a href="/product/<%= product.id %>"><%= product.name %></a></h3>
+                    <p class="product-description"><%= product.shortDesc %></p>
+                    <div class="product-card-bottom">
+                      <strong><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></strong>
+                      <a href="/product/<%= product.id %>" class="product-arrow" aria-label="Xem chi tiết <%= product.name %>"><i class="fas fa-arrow-right"></i></a>
                     </div>
-                    <% }); %>
                   </div>
-                </div>
+                </article>
               </div>
-            </div>
+            <% }); %>
           </div>
+          <% if (!products.length) { %><div class="catalog-empty"><i class="fas fa-laptop"></i><h3>Chưa có sản phẩm</h3><p>Danh sách laptop sẽ được cập nhật tại đây.</p></div><% } %>
         </div>
-      </div>
-    </div>
-    <!-- Fruits Shop End-->
-
-    <!-- Footer Start -->
+      </section>
+    </main>
     <%- include('../layout/footer') -%>
-    <!-- Footer End -->
-
-    <!-- Back to Top -->
-    <a
-      href="#"
-      class="btn btn-primary border-3 border-primary rounded-circle back-to-top"
-      ><i class="fa fa-arrow-up"></i
-    ></a>
-
-    <!-- JavaScript Libraries -->
+    <a href="#" class="back-to-top" aria-label="Lên đầu trang"><i class="fas fa-arrow-up"></i></a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/client/lib/easing/easing.min.js"></script>
-    <script src="/client/lib/waypoints/waypoints.min.js"></script>
-    <script src="/client/lib/lightbox/js/lightbox.min.js"></script>
     <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
-
-    <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
   </body>
 </html>

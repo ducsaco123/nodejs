@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,15 +8,16 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <title>Manage User</title>
+    <title>Sản phẩm | Laptopshop</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
+    <link href="/admin/css/modern.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
       crossorigin="anonymous"
     ></script>
   </head>
 
-  <body class="sb-nav-fixed">
+  <body class="sb-nav-fixed admin-product">
     <%- include('../layout/header') -%>
 
     <div id="layoutSidenav">
@@ -24,31 +25,17 @@
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Manage Products</h1>
-            <ol class="breadcrumb mb-4">
-              <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-              <li class="breadcrumb-item active">
-                <a href="/admin/product">Products</a>
-              </li>
-            </ol>
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-              <h5>Table products:</h5>
-              <div>
-                <a href="/admin/create-product" class="btn btn-warning">Create a new product</a>
-              </div>
-            </div>
-            
-            <hr />
-
-            <div>
-              <table class="table table-hover table-bordered">
+            <div class="admin-page-heading"><span class="admin-eyebrow">QUẢN LÝ</span><h1>Sản phẩm</h1><p>Danh sách laptop đang hiển thị tại cửa hàng.</p></div>
+            <div class="admin-content-card">
+              <div class="admin-card-heading"><div><h2>Danh sách sản phẩm</h2><span><%= products.length %> sản phẩm</span></div><a href="/admin/create-product" class="btn btn-primary"><i class="fas fa-plus me-2"></i>Thêm sản phẩm</a></div>
+              <div class="table-responsive"><table class="table table-hover align-middle">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Factory</th>
-                    <th>Actions</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Giá</th>
+                    <th>Hãng</th>
+                    <th>Thao tác</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -56,22 +43,23 @@
                     <tr>
                       <td><%= products[i].id %></td>
                       <td><%= products[i].name %></td>
-                      <td><%= products[i].price %></td>
+                      <td class="admin-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(products[i].price) %></td>
                       <td><%= products[i].factory %></td>
                       <td>
-                        <div style="display: flex; gap: 10px;">
+                        <div class="admin-table-actions">
                           <form action="/admin/handle-view-product/<%= products[i].id %>" method="GET">
-                            <button class="btn btn-warning" type="submit">View</button>
+                            <button class="btn btn-outline-primary btn-sm" type="submit">Chi tiết</button>
                           </form>
                           <form action="/admin/handle-delete-product/<%= products[i].id %>" method="POST">
-                            <button class="btn btn-danger" type="submit">Delete</button>
+                            <button class="btn btn-outline-danger btn-sm" type="submit">Xóa</button>
                           </form>
                         </div>
                       </td>
                     </tr>
                   <% } %>
+                  <% if (!products.length) { %><tr><td colspan="5" class="admin-table-empty">Chưa có sản phẩm. Hãy thêm sản phẩm đầu tiên.</td></tr><% } %>
                 </tbody>
-              </table>
+              </table></div>
             </div>
 
           </div>

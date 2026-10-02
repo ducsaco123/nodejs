@@ -6,6 +6,7 @@ import {
   handleUpdateProduct,
   handleViewProduct,
 } from "services/admin/product.service";
+import { getProductById } from "services/client/item.service";
 import { ProductSchema, TProductSchecma } from "src/validation/product.schema";
 
 const factoryOptions = [
@@ -26,7 +27,12 @@ const targetOptions = [
 ];
 
 const getDetailProductPage = async (req: Request, res: Response) => {
-  return res.render("client/product/detail.ejs");
+  const { id } = req.params;
+  if (typeof id !== "string") {
+    return res.status(400).send("Invalid product ID");
+  }
+  const product = await getProductById(id);
+  return res.render("client/product/detail.ejs", { product });
 };
 
 const getCreateProductPage = async (req: Request, res: Response) => {

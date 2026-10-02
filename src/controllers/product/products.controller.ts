@@ -1,6 +1,6 @@
 import { name } from "ejs";
 import { Request, Response } from "express";
-// import { handleCreateProduct } from "services/product.service";
+import { handleCreateProduct } from "services/admin/product.service";
 import { ProductSchema, TProductSchecma } from "src/validation/product.schema";
 
 const getDetailProductPage = async (req: Request, res: Response) => {
@@ -43,24 +43,20 @@ const postCreateProduct = async (req: Request, res: Response) => {
   }
 
   //success
-  try {
-    const result = ProductSchema.safeParse(req.body);
-    console.log(result);
-  } catch (error) {
-    console.log(error);
-  }
+
   const file = req.file;
-  const image = file?.filename ?? "";
-  // await handleCreateProduct(
-  //   name,
-  //   price,
-  //   detailDesc,
-  //   shortDesc,
-  //   quantity,
-  //   factory,
-  //   target,
-  //   image,
-  // );
+  const image = file?.filename ?? null;
+
+  await handleCreateProduct(
+    name,
+    +price,
+    detailDesc,
+    shortDesc,
+    +quantity,
+    factory,
+    target,
+    image,
+  );
   return res.redirect("/admin/product");
 };
 

@@ -23,6 +23,7 @@ import {
   viewProductPage,
 } from "controllers/product/products.controller";
 import {
+  createAccount,
   getLoginPage,
   getRegisterPage,
 } from "controllers/auth/auth.controller";
@@ -37,7 +38,7 @@ const webRoutes = (app: Express) => {
   //auth routes
   router.get("/login", getLoginPage);
   router.get("/register", getRegisterPage);
-  // router.post("/register");
+  router.post("/register", createAccount);
   // router.post("/login");
 
   //admin routes

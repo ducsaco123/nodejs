@@ -46,11 +46,16 @@
             <div class="row">
               <div class="col-12 col-xl-9 mx-auto">
                 <div class="admin-form-card">
-                  <% errors.forEach((error) => { %>
-                    <div class="alert alert-danger mb-3">
-                      <%= error %>
+                  <% if (typeof errors !== "undefined" && Array.isArray(errors) && errors.length) { %>
+                    <div class="alert alert-danger mb-3" role="alert">
+                      <strong>Vui lòng kiểm tra lại thông tin:</strong>
+                      <ul class="mb-0 mt-2 ps-3">
+                        <% errors.forEach((error) => { %>
+                          <li><%= error %></li>
+                        <% }); %>
+                      </ul>
                     </div>
-                  <% }); %>
+                  <% } %>
                   <h5>Thông tin sản phẩm</h5>
                   <form
                     action="/admin/handle-update-product"

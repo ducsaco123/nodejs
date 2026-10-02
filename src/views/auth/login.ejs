@@ -36,10 +36,20 @@
               <span class="auth-form-kicker">ĐĂNG NHẬP TÀI KHOẢN</span>
               <h1 id="login-title">Rất vui khi gặp lại bạn.</h1>
               <p class="auth-form-intro">Nhập thông tin tài khoản để tiếp tục.</p>
+              <% if (typeof errors !== 'undefined' && Array.isArray(errors) && errors.length) { %>
+                <div class="auth-errors" role="alert" aria-live="polite">
+                  <strong>Vui lòng kiểm tra lại thông tin:</strong>
+                  <ul>
+                    <% errors.forEach((error) => { %>
+                      <li><%= error %></li>
+                    <% }); %>
+                  </ul>
+                </div>
+              <% } %>
               <form class="auth-form" action="/login" method="post">
                 <div class="auth-field">
                   <label for="login-username">Email</label>
-                  <div class="auth-input-wrap"><i class="fas fa-envelope" aria-hidden="true"></i><input id="login-username" name="username" type="email" placeholder="you@example.com" autocomplete="username" required /></div>
+                  <div class="auth-input-wrap"><i class="fas fa-envelope" aria-hidden="true"></i><input id="login-username" name="username" type="email" value="<%= typeof oldData !== 'undefined' && oldData ? (oldData.username ?? '') : '' %>" placeholder="you@example.com" autocomplete="username" required /></div>
                 </div>
                 <div class="auth-field">
                   <label for="login-password">Mật khẩu</label>

@@ -60,10 +60,10 @@
                       <td><%= products[i].factory %></td>
                       <td>
                         <div style="display: flex; gap: 10px;">
-                          <form action="/admin/handle-view-user/<%= products[i].id %>" method="GET">
+                          <form action="/admin/handle-view-product/<%= products[i].id %>" method="GET">
                             <button class="btn btn-warning" type="submit">View</button>
                           </form>
-                          <form action="/admin/handle-delete-user/<%= products[i].id %>" method="POST">
+                          <form action="/admin/handle-delete-product/<%= products[i].id %>" method="POST">
                             <button class="btn btn-danger" type="submit">Delete</button>
                           </form>
                         </div>

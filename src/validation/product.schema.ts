@@ -5,7 +5,10 @@ export const ProductSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Tên sản phẩm không được để trống" }),
-  price: z.number().positive(),
+  price: z
+    .string()
+    .transform((val) => (val === "" ? 0 : Number(val)))
+    .refine((num) => num > 0, { message: "Giá sản phẩm phải lớn hơn 0" }),
   detailDesc: z
     .string()
     .trim()
@@ -14,7 +17,10 @@ export const ProductSchema = z.object({
     .string()
     .trim()
     .min(1, { message: "Mô tả ngắn không được để trống" }),
-  quantity: z.number().positive().min(1, { message: "Số lượng không hợp lệ" }),
+  quantity: z
+    .string()
+    .transform((val) => (val === "" ? 0 : Number(val)))
+    .refine((num) => num > 0, { message: "Số lượng phải lớn hơn 0" }),
   factory: z
     .string()
     .trim()

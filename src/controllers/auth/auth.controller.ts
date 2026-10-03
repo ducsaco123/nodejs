@@ -7,7 +7,10 @@ import {
 } from "src/validation/register.schema";
 
 const getLoginPage = async (req: Request, res: Response) => {
-  return res.render("auth/login.ejs");
+  const user = req.user;
+  const { session } = req as any;
+  const messages = session?.messages ?? [];
+  return res.render("auth/login.ejs", { messages });
 };
 
 const getRegisterPage = async (req: Request, res: Response) => {

@@ -55,13 +55,15 @@ const handleLogin = async (
   });
   if (!user) {
     return callback(null, false, {
-      message: `Username: ${username} not found`,
+      message: `Tài khoản/mật khẩu không chính xác`,
     });
   }
   //compare password
   const isMatch = await comparePassword(password, user.password);
   if (!isMatch) {
-    return callback(null, false, { message: `Invalid password` });
+    return callback(null, false, {
+      message: `Tài khoản/mật khẩu không chính xác`,
+    });
   }
   return callback(null, user);
 };

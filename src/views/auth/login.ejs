@@ -36,12 +36,12 @@
               <span class="auth-form-kicker">ĐĂNG NHẬP TÀI KHOẢN</span>
               <h1 id="login-title">Rất vui khi gặp lại bạn.</h1>
               <p class="auth-form-intro">Nhập thông tin tài khoản để tiếp tục.</p>
-              <% if (typeof errors !== 'undefined' && Array.isArray(errors) && errors.length) { %>
+              <% if (typeof messages !== 'undefined' && Array.isArray(messages) && messages.length) { %>
                 <div class="auth-errors" role="alert" aria-live="polite">
                   <strong>Vui lòng kiểm tra lại thông tin:</strong>
                   <ul>
-                    <% errors.forEach((error) => { %>
-                      <li><%= error %></li>
+                    <% messages.forEach((message) => { %>
+                      <li><%= message %></li>
                     <% }); %>
                   </ul>
                 </div>

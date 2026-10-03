@@ -43,9 +43,9 @@ const webRoutes = (app: Express) => {
   router.post(
     "/login",
     passport.authenticate("local", {
-      session: false,
       successRedirect: "/",
       failureRedirect: "/login",
+      failureMessage: true,
     }),
   );
 

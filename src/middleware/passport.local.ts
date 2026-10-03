@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { handleLogin } from "services/auth/auth.service";
+import { handleViewUser } from "services/user.service";
 
 const configPassportLocal = () => {
   passport.use(
@@ -17,20 +18,18 @@ const configPassportLocal = () => {
       return handleLogin(username, password, callback);
     }),
   );
-  passport.serializeUser(function (user: any, cb) {
-    process.nextTick(function () {
-      return cb(null, {
-        id: user.id,
-        username: user.username,
-        picture: user.picture,
-      });
+  passport.serializeUser(function (user: any, callback) {
+    return callback(null, {
+      id: user.id,
+      username: user.username,
     });
   });
 
-  passport.deserializeUser(function (user, cb) {
-    process.nextTick(function () {
-      return cb(null, user);
-    });
+  passport.deserializeUser(async function (user: any, callback) {
+    const { id, username } = user;
+    //query to db
+    const userInDB = await handleViewUser(id);
+    return callback(null, { ...userInDB });
   });
 };
 

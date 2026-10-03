@@ -1,6 +1,7 @@
 import { prisma } from "config/client";
 import { ACCOUNT_TYPE } from "config/constant";
 import bcrypt from "bcrypt";
+import { comparePassword } from "services/user.service";
 
 const saltRounds = 10;
 const hashPassword = async (plaintText: string) => {
@@ -43,4 +44,25 @@ const handleCreateAccount = async (
   }
 };
 
-export { handleCreateAccount, isEmailExist };
+const handleLogin = async (
+  username: string,
+  password: string,
+  callback: any,
+) => {
+  //Check user exist in DB
+  const user = await prisma.user.findUnique({
+    where: { username },
+  });
+  if (!user) {
+    return callback(null, false, {
+      message: `Username: ${username} not found`,
+    });
+  }
+  //compare password
+  const isMatch = await comparePassword(password, user.password);
+  if (!isMatch) {
+    return callback(null, false, { message: `Invalid password` });
+  }
+  return callback(null, user);
+};
+export { handleCreateAccount, isEmailExist, handleLogin };

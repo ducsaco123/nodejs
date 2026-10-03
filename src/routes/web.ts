@@ -27,6 +27,7 @@ import {
   getLoginPage,
   getRegisterPage,
 } from "controllers/auth/auth.controller";
+import passport from "passport";
 
 const router = express.Router();
 const multer = require("multer");
@@ -39,7 +40,14 @@ const webRoutes = (app: Express) => {
   router.get("/login", getLoginPage);
   router.get("/register", getRegisterPage);
   router.post("/register", createAccount);
-  // router.post("/login");
+  router.post(
+    "/login",
+    passport.authenticate("local", {
+      session: false,
+      successRedirect: "/",
+      failureRedirect: "/login",
+    }),
+  );
 
   //admin routes
   router.get("/admin", getDashboardPage);

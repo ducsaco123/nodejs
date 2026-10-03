@@ -1,8 +1,9 @@
 import express from "express";
 import "dotenv/config";
 import webRoutes from "routes/web";
-import getConnection from "./config/database";
 import initDatebase from "config/seed";
+import passport from "passport";
+import configPassportLocal from "./middleware/passport.local";
 
 const app = express();
 const port = process.env.PORT || 8080;
@@ -18,12 +19,20 @@ app.use(express.urlencoded({ extended: true }));
 //config static files: image, css, js
 app.use(express.static("public"));
 
+//config passport
+app.use(passport.initialize());
+configPassportLocal();
+
 //config routes
 webRoutes(app);
 
 //seeding data
 initDatebase();
 
+//handle 404 not found
+app.use((req, res) => {
+  res.status(404).render("client/404.ejs");
+});
 app.listen(port, () => {
   console.log(`My app is running on port: ${port}`);
   console.log("env port: ", process.env.PORT);

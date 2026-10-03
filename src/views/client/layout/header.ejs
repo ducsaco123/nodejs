@@ -1,19 +1,93 @@
 <header class="site-header fixed-top">
   <div class="site-topbar d-none d-md-block">
     <div class="container d-flex justify-content-between align-items-center">
-      <span><i class="fas fa-laptop me-2"></i>Không gian dành cho người yêu công nghệ</span>
+      <span
+        ><i class="fas fa-laptop me-2"></i>Không gian dành cho người yêu công
+        nghệ</span
+      >
       <span>Khám phá laptop phù hợp với bạn</span>
     </div>
   </div>
   <nav class="navbar navbar-expand-lg site-nav" aria-label="Điều hướng chính">
     <div class="container">
-      <a class="navbar-brand site-brand" href="/"><span class="brand-mark"><i class="fas fa-laptop"></i></span><span>Laptop<span class="brand-accent">shop</span></span></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Mở menu"><i class="fas fa-bars"></i></button>
+      <a class="navbar-brand site-brand" href="/"
+        ><span class="brand-mark"><i class="fas fa-laptop"></i></span
+        ><span>Laptop<span class="brand-accent">shop</span></span></a
+      >
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarCollapse"
+        aria-controls="navbarCollapse"
+        aria-expanded="false"
+        aria-label="Mở menu"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <div class="navbar-nav ms-auto align-items-lg-center">
           <a href="/" class="nav-link">Trang chủ</a>
           <a href="/#san-pham" class="nav-link">Sản phẩm</a>
-          <a href="/login" class="nav-link nav-login"><i class="fas fa-sign-in-alt me-2"></i>Đăng nhập</a>
+          <% if (user){ %>
+          <div class="dropdown my-auto">
+            <a
+              href="#"
+              class="dropdown"
+              role="button"
+              id="dropdownMenuLink"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i class="fas fa-user fa-2x"></i>
+            </a>
+
+            <ul
+              class="dropdown-menu dropdown-menu-end p-4"
+              aria-labelledby="dropdownMenuLink"
+            >
+              <li
+                class="d-flex align-items-center flex-column"
+                style="min-width: 300px"
+              >
+                <img
+                  style="
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                  "
+                  src="/images/<%= user.avatar %>"
+                />
+                <div class="text-center my-3"><%= user.fullName %></div>
+              </li>
+
+              <li><a class="dropdown-item" href="#">Quản lý tài khoản</a></li>
+
+              <li>
+                <a class="dropdown-item" href="/order-history"
+                  >Lịch sử mua hàng</a
+                >
+              </li>
+              <li>
+                <hr class="dropdown-divider" />
+              </li>
+              <li>
+                <form method="post" action="/logout">
+                  <button class="dropdown-item">Đăng xuất</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+          <% } else{ %>
+             <a
+              href="/login"
+            >
+              <i class="fas fa-user fa-2x"></i>
+            </a>
+            <% } %>
         </div>
       </div>
     </div>

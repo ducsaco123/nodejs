@@ -67,4 +67,17 @@ const handleLogin = async (
   }
   return callback(null, user);
 };
-export { handleCreateAccount, isEmailExist, handleLogin };
+
+const getUserWithRoleById = async (userId: string) => {
+  const user = await prisma.user.findUnique({
+    where: { id: parseInt(userId) },
+    include: {
+      role: true,
+    },
+    omit: {
+      password: true,
+    },
+  });
+  return user;
+};
+export { handleCreateAccount, isEmailExist, handleLogin, getUserWithRoleById };

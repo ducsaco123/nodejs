@@ -85,4 +85,21 @@ const getProductToCart = async (
   }
 };
 
-export { getProducts, getProductById, getProductToCart };
+const getProductInCart = async (userId: number) => {
+  const cart = await prisma.cart.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  if (cart) {
+    const currentCardDetail = await prisma.cartDetail.findMany({
+      where: { cartId: cart.id },
+      include: { product: true },
+    });
+    return currentCardDetail;
+  }
+  return [];
+};
+
+export { getProducts, getProductById, getProductToCart, getProductInCart };

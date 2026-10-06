@@ -1,12 +1,17 @@
 import { name } from "ejs";
 import { Request, Response } from "express";
+import { it } from "node:test";
 import {
   handleCreateProduct,
   handleDeleteProduct,
   handleUpdateProduct,
   handleViewProduct,
 } from "services/admin/product.service";
-import { getProductById, getProductToCart } from "services/client/item.service";
+import {
+  getProductInCart,
+  getProductById,
+  getProductToCart,
+} from "services/client/item.service";
 import { ProductSchema, TProductSchecma } from "src/validation/product.schema";
 
 const factoryOptions = [
@@ -174,7 +179,12 @@ const postAddProductToCart = async (req: Request, res: Response) => {
 const getOrderDetailPage = async (req: Request, res: Response) => {
   const user = req.user;
   if (!user) return res.redirect("/login");
-  return res.render("client/product/cart.ejs");
+  const cartDetails = await getProductInCart(+user.id);
+  const totalPrice = cartDetails
+    ?.map((item) => +item.price * +item.quantity)
+    ?.reduce((a, b) => a + b, 0);
+
+  return res.render("client/product/cart.ejs", { cartDetails, totalPrice });
 };
 export {
   getDetailProductPage,

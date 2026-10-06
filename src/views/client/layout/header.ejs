@@ -29,26 +29,15 @@
         <div class="navbar-nav ms-auto align-items-lg-center">
           <a href="/" class="nav-link">Trang chủ</a>
           <a href="/#san-pham" class="nav-link">Sản phẩm</a>
-          <%
-            let totalCartItems = 0;
-            if (typeof cartCount !== 'undefined' && cartCount !== null) {
-              totalCartItems = cartCount;
-            } else if (typeof user !== 'undefined' && user) {
-              if (user.cart && typeof user.cart.sum === 'number') {
-                totalCartItems = user.cart.sum;
-              } else if (typeof user.sum === 'number') {
-                totalCartItems = user.sum;
-              }
-            }
-          %>
-          <a href="/cart-detail" class="site-cart" aria-label="Giỏ hàng của bạn, hiện có <%= totalCartItems %> sản phẩm" title="Giỏ hàng">
+          
+          <a href="/cart-detail" class="site-cart" aria-label="Giỏ hàng của bạn, hiện có <%= user?.sumCart ?? 0 %> sản phẩm" title="Giỏ hàng">
             <span class="site-cart-icon-wrapper" aria-hidden="true">
               <i class="fas fa-shopping-bag"></i>
-              <span class="site-cart-badge"><%= totalCartItems %></span>
+              <span class="site-cart-badge"><%= user?.sumCart ?? 0 %></span>
             </span>
             <span class="site-cart-text d-lg-none">
               <span>Giỏ hàng</span>
-              <small><%= totalCartItems %> sản phẩm</small>
+              <small><%= user?.sumCart ?? 0 %> sản phẩm</small>
             </span>
           </a>
           <div class="dropdown site-account">

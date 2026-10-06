@@ -31,6 +31,40 @@ const getProductToCart = async (
 
   if (cart) {
     //update
+    await prisma.cart.update({
+      where: {
+        id: cart.id,
+      },
+      data: {
+        sum: {
+          increment: quantity,
+        },
+      },
+    });
+
+    //update + insert
+    const currentCardDetail = await prisma.cartDetail.findFirst({
+      where: {
+        cartId: cart.id,
+        productId,
+      },
+    });
+    await prisma.cartDetail.upsert({
+      where: {
+        id: currentCardDetail?.id ?? 0,
+      },
+      update: {
+        quantity: {
+          increment: quantity,
+        },
+      },
+      create: {
+        price: product?.price,
+        quantity,
+        productId,
+        cartId: cart.id,
+      },
+    });
   } else {
     //create
     await prisma.cart.create({
@@ -50,4 +84,5 @@ const getProductToCart = async (
     });
   }
 };
+
 export { getProducts, getProductById, getProductToCart };

@@ -18,6 +18,7 @@ import {
   deleteProductPage,
   getCreateProductPage,
   getDetailProductPage,
+  getOrderDetailPage,
   postAddProductToCart,
   postCreateProduct,
   updateProductPage,
@@ -32,7 +33,6 @@ import {
 } from "controllers/auth/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
-import { getOrderDetailPage } from "controllers/order/orders.controller";
 
 const router = express.Router();
 const multer = require("multer");

@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { handleCreateAccount } from "services/auth/auth.service";
 import { handleCreateUser } from "services/user.service";
 import {
@@ -50,4 +50,19 @@ const getSuccessRedirectPage = async (req: Request, res: Response) => {
   }
 };
 
-export { getLoginPage, getRegisterPage, createAccount, getSuccessRedirectPage };
+const postLogout = async (req: Request, res: Response, next: NextFunction) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+};
+
+export {
+  getLoginPage,
+  getRegisterPage,
+  createAccount,
+  getSuccessRedirectPage,
+  postLogout,
+};

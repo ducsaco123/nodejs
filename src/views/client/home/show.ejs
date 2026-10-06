@@ -37,8 +37,15 @@
                     <h3><a href="/product/<%= product.id %>"><%= product.name %></a></h3>
                     <p class="product-description"><%= product.shortDesc %></p>
                     <div class="product-card-bottom">
-                      <strong><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></strong>
-                      <a href="/product/<%= product.id %>" class="product-arrow" aria-label="Xem chi tiết <%= product.name %>"><i class="fas fa-arrow-right"></i></a>
+                      <div class="product-price-box">
+                        <strong class="product-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></strong>
+                      </div>
+                      <form action="/add-product-to-cart/<%= product.id %>" method="post" class="product-cart-form">
+                        <button type="submit" class="product-add-cart" aria-label="Thêm <%= product.name %> vào giỏ hàng" title="Thêm vào giỏ hàng">
+                          <i class="fas fa-cart-plus" aria-hidden="true"></i>
+                          <span>Add to cart</span>
+                        </button>
+                      </form>
                     </div>
                   </div>
                 </article>

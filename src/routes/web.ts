@@ -18,6 +18,7 @@ import {
   deleteProductPage,
   getCreateProductPage,
   getDetailProductPage,
+  postAddProductToCart,
   postCreateProduct,
   updateProductPage,
   viewProductPage,
@@ -31,6 +32,7 @@ import {
 } from "controllers/auth/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
+import { getOrderDetailPage } from "controllers/order/orders.controller";
 
 const router = express.Router();
 const multer = require("multer");
@@ -41,7 +43,7 @@ const webRoutes = (app: Express) => {
 
   //auth routes
   router.get("/success-redirect", getSuccessRedirectPage);
-  router.get("/login", isLogin, getLoginPage);
+  router.get("/login", getLoginPage);
   router.get("/register", getRegisterPage);
   router.post("/register", createAccount);
   router.post("/logout", postLogout);
@@ -55,7 +57,7 @@ const webRoutes = (app: Express) => {
   );
 
   //admin routes
-  router.get("/admin", isAdmin, getDashboardPage);
+  router.get("/admin", getDashboardPage);
 
   router.get("/admin/user", getAdminUserPage);
   router.get("/admin/create-user", getCreateUserPage);
@@ -92,7 +94,9 @@ const webRoutes = (app: Express) => {
   );
   router.post("/admin/handle-delete-product/:id", deleteProductPage);
 
-  app.use("/", router);
+  router.get("/cart-detail", getOrderDetailPage);
+  router.post("/add-product-to-cart/:id", postAddProductToCart);
+  app.use("/", isAdmin, router);
 };
 
 export default webRoutes;

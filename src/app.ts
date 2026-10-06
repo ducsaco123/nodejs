@@ -59,7 +59,7 @@ initDatebase();
 
 //handle 404 not found
 app.use((req, res) => {
-  res.status(404).render("client/404.ejs");
+  res.status(404).render("status/404.ejs");
 });
 app.listen(port, () => {
   console.log(`My app is running on port: ${port}`);

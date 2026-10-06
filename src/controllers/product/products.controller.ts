@@ -6,7 +6,7 @@ import {
   handleUpdateProduct,
   handleViewProduct,
 } from "services/admin/product.service";
-import { getProductById } from "services/client/item.service";
+import { getProductById, getProductToCart } from "services/client/item.service";
 import { ProductSchema, TProductSchecma } from "src/validation/product.schema";
 
 const factoryOptions = [
@@ -158,6 +158,18 @@ const deleteProductPage = async (req: Request, res: Response) => {
   await handleDeleteProduct(id);
   return res.redirect("/admin/product");
 };
+
+const postAddProductToCart = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = req.user;
+
+  if (user) {
+    await getProductToCart(1, +id, user);
+  } else {
+    return res.redirect("/login");
+  }
+  return res.redirect("/");
+};
 export {
   getDetailProductPage,
   getCreateProductPage,
@@ -165,4 +177,5 @@ export {
   viewProductPage,
   updateProductPage,
   deleteProductPage,
+  postAddProductToCart,
 };

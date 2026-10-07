@@ -11,6 +11,7 @@ import {
   getProductInCart,
   getProductById,
   getProductToCart,
+  deleteCartDetail,
 } from "services/client/item.service";
 import { ProductSchema, TProductSchecma } from "src/validation/product.schema";
 
@@ -186,6 +187,29 @@ const getOrderDetailPage = async (req: Request, res: Response) => {
 
   return res.render("client/product/cart.ejs", { cartDetails, totalPrice });
 };
+
+const getCheckoutPage = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+  const cartDetails = await getProductInCart(+user.id);
+  const totalPrice = cartDetails
+    ?.map((item) => +item.price * +item.quantity)
+    ?.reduce((a, b) => a + b, 0);
+
+  return res.render("client/product/checkout.ejs", { cartDetails, totalPrice });
+};
+
+const handleDeleteCart = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const user = req.user;
+
+  if (user) {
+    await deleteCartDetail(+id, user.id, user.sumCart);
+  } else {
+    return res.redirect("/login");
+  }
+  return res.redirect("/cart-detail");
+};
 export {
   getDetailProductPage,
   getCreateProductPage,
@@ -195,4 +219,6 @@ export {
   deleteProductPage,
   postAddProductToCart,
   getOrderDetailPage,
+  handleDeleteCart,
+  getCheckoutPage,
 };

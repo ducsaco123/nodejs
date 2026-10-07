@@ -123,14 +123,17 @@
                             </p>
                           </td>
                           <td class="text-center">
-                            <button
+                            <form action="/delete-cart/<%= cartDetail.id %>" method="post">
+
+                              <button
                               class="cart-remove-btn"
-                              type="button"
+                              type="submit"
                               aria-label="Xóa sản phẩm khỏi giỏ hàng"
                               title="Xóa sản phẩm"
-                            >
+                              >
                               <i class="fas fa-trash-alt"></i>
                             </button>
+                          </form>
                           </td>
                         </tr>
                       <% }) %>

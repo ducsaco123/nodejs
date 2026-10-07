@@ -16,9 +16,11 @@ import {
 import fileUploadMiddleware from "src/middleware/multer";
 import {
   deleteProductPage,
+  getCheckoutPage,
   getCreateProductPage,
   getDetailProductPage,
   getOrderDetailPage,
+  handleDeleteCart,
   postAddProductToCart,
   postCreateProduct,
   updateProductPage,
@@ -95,7 +97,9 @@ const webRoutes = (app: Express) => {
   router.post("/admin/handle-delete-product/:id", deleteProductPage);
 
   router.get("/cart-detail", getOrderDetailPage);
+  router.get("/checkout", getCheckoutPage);
   router.post("/add-product-to-cart/:id", postAddProductToCart);
+  router.post("/delete-cart/:id", handleDeleteCart);
   app.use("/", isAdmin, router);
 };
 

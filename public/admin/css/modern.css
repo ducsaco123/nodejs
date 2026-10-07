@@ -47,4 +47,20 @@ body.sb-nav-fixed .btn-primary { background:var(--admin-blue); border-color:var(
 .site-account-logout-form { border-top:1px solid #edf0f6; padding-top:.65rem; }
 .site-account-logout { display:flex; align-items:center; gap:.65rem; width:100%; padding:.7rem .8rem; border:0; border-radius:9px; background:#fff4f5; color:#a53243; font-size:.82rem; font-weight:800; text-align:left; transition:background .15s; }
 .site-account-logout:hover { background:#ffe8eb; }
-@media(max-width:575px) { .admin-topbar .navbar-brand { width:auto; min-width:170px; }.admin-topbar-right { padding-right:.7rem; }.admin-view-store { font-size:0; display:flex; align-items:center; justify-content:center; width:36px; height:36px; padding:0; }.admin-view-store i,.admin-view-store svg { font-size:.85rem; margin:0!important; }.admin-card-heading { align-items:flex-start; flex-direction:column; }.admin-form-card { padding:1.2rem; } .admin-topbar .site-account-trigger-text { display:none; } .admin-topbar .site-account-chevron { display:none; } .admin-topbar .site-account-trigger { padding:.25rem; min-height:36px; border-radius:10px; } .admin-topbar .site-account-menu { width:280px; } }
+.admin-topbar .site-account-menu { width:280px; } }
+/* Admin Order Details & Status Badges */
+.admin-order-product-img { width:60px; height:60px; object-fit:contain; border-radius:10px; background:#f8fafc; border:1px solid var(--admin-line); padding:4px; flex:none; }
+.admin-badge-status { display:inline-flex; align-items:center; gap:.35rem; padding:.3rem .65rem; border-radius:7px; font-size:.74rem; font-weight:800; letter-spacing:.02em; }
+.admin-badge-pending { background:#fff7ed; color:#c2410c; border:1px solid #ffedd5; }
+.admin-badge-success { background:#ecfdf5; color:#047857; border:1px solid #d1fae5; }
+.admin-badge-danger { background:#fef2f2; color:#b91c1c; border:1px solid #fee2e2; }
+.admin-badge-info { background:#eff6ff; color:#1d4ed8; border:1px solid #dbeafe; }
+.admin-info-label { font-size:.73rem; font-weight:700; color:#78869e; text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+.admin-info-value { font-size:.88rem; font-weight:700; color:var(--admin-ink); }
+.admin-order-summary-box { background:#f8faff; border-top:1px solid var(--admin-line); padding:1.25rem 1.5rem; display:flex; justify-content:flex-end; }
+.admin-order-summary-content { width:320px; max-width:100%; display:flex; flex-direction:column; gap:.5rem; font-size:.85rem; }
+.admin-order-summary-row { display:flex; justify-content:space-between; align-items:center; color:#5e6d87; }
+.admin-order-summary-total { display:flex; justify-content:space-between; align-items:baseline; border-top:1px solid var(--admin-line); padding-top:.6rem; margin-top:.3rem; }
+.admin-order-summary-total strong { font-size:.95rem; font-weight:800; color:var(--admin-ink); }
+.admin-order-summary-total .total-amount { font-family:Manrope,sans-serif; font-size:1.25rem; font-weight:800; color:var(--admin-blue); }
+

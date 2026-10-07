@@ -8,7 +8,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <meta name="description" content="Dự án laptopshop" />
-    <title>Đơn hàng | Laptopshop</title>
+    <title>Quản lý đơn hàng | Laptopshop</title>
     <link href="/admin/css/styles.css" rel="stylesheet" />
     <link href="/admin/css/modern.css" rel="stylesheet" />
     <script
@@ -25,8 +25,132 @@
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <div class="admin-page-heading"><span class="admin-eyebrow">QUẢN LÝ</span><h1>Đơn hàng</h1><p>Khu vực theo dõi đơn hàng của cửa hàng.</p></div>
-            <div class="admin-empty-state"><span><i class="fas fa-box-open"></i></span><h2>Chưa có danh sách đơn hàng</h2><p>Thông tin đơn hàng sẽ xuất hiện tại đây khi chức năng này được hoàn thiện.</p><a href="/admin" class="btn btn-primary">Về bảng điều khiển</a></div>
+            <!-- Tiêu đề trang & Breadcrumb -->
+            <div class="admin-page-heading">
+              <span class="admin-eyebrow">QUẢN LÝ</span>
+              <h1>Đơn hàng</h1>
+              <p>Theo dõi và quản lý thông tin các đơn đặt hàng tại cửa hàng.</p>
+            </div>
+
+            <ol class="breadcrumb mb-4">
+              <li class="breadcrumb-item"><a href="/admin">Bảng điều khiển</a></li>
+              <li class="breadcrumb-item active">Đơn hàng</li>
+            </ol>
+
+            <!-- Card danh sách đơn hàng -->
+            <div class="admin-content-card">
+              <div class="admin-card-heading">
+                <div>
+                  <h2>Danh sách đơn hàng</h2>
+                  <span><%= (typeof orders !== "undefined" && orders) ? orders.length : 0 %> đơn hàng đã được ghi nhận</span>
+                </div>
+              </div>
+
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead>
+                    <tr>
+                      <th scope="col" style="width: 70px;">Mã ĐH</th>
+                      <th scope="col">Khách hàng</th>
+                      <th scope="col">Tổng tiền</th>
+                      <th scope="col">Phương thức TT</th>
+                      <th scope="col">Trạng thái TT</th>
+                      <th scope="col">Trạng thái đơn</th>
+                      <th scope="col" class="text-end" style="width: 120px;">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (typeof orders !== "undefined" && orders && orders.length > 0) { %>
+                      <% for (let i = 0; i < orders.length; i++) { %>
+                        <tr>
+                          <td>
+                            <strong>#<%= orders[i].id %></strong>
+                          </td>
+                          <td>
+                            <div class="d-flex flex-column">
+                              <strong>
+                                <%= orders[i].receiverName || (orders[i].user ? orders[i].user.fullName : 'Khách hàng') %>
+                              </strong>
+                              <small class="text-muted">
+                                <%= orders[i].receiverPhone || (orders[i].user ? orders[i].user.phone : 'Chưa có SĐT') %>
+                              </small>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="admin-price">
+                              <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[i].totalPrice) %>
+                            </span>
+                          </td>
+                          <td>
+                            <% if (orders[i].paymentMethod === 'COD') { %>
+                              <span class="admin-badge-status admin-badge-info">
+                                <i class="fas fa-money-bill-wave"></i> COD
+                              </span>
+                            <% } else if (orders[i].paymentMethod === 'BANKING') { %>
+                              <span class="admin-badge-status admin-badge-info">
+                                <i class="fas fa-qrcode"></i> Chuyển khoản
+                              </span>
+                            <% } else { %>
+                              <span class="admin-badge-status admin-badge-info">
+                                <%= orders[i].paymentMethod %>
+                              </span>
+                            <% } %>
+                          </td>
+                          <td>
+                            <% if (orders[i].paymentStatus === 'PAYMENT_PAID') { %>
+                              <span class="admin-badge-status admin-badge-success">
+                                <i class="fas fa-check-circle"></i> Đã thanh toán
+                              </span>
+                            <% } else { %>
+                              <span class="admin-badge-status admin-badge-danger">
+                                <i class="fas fa-times-circle"></i> Chưa thanh toán
+                              </span>
+                            <% } %>
+                          </td>
+                          <td>
+                            <% if (orders[i].status === 'PENDING') { %>
+                              <span class="admin-badge-status admin-badge-pending">
+                                <i class="fas fa-clock"></i> Chờ xử lý
+                              </span>
+                            <% } else if (orders[i].status === 'COMPLETED') { %>
+                              <span class="admin-badge-status admin-badge-success">
+                                <i class="fas fa-check-double"></i> Đã hoàn thành
+                              </span>
+                            <% } else if (orders[i].status === 'CANCELLED') { %>
+                              <span class="admin-badge-status admin-badge-danger">
+                                <i class="fas fa-ban"></i> Đã hủy
+                              </span>
+                            <% } else { %>
+                              <span class="admin-badge-status admin-badge-info">
+                                <%= orders[i].status %>
+                              </span>
+                            <% } %>
+                          </td>
+                          <td class="text-end">
+                            <div class="admin-table-actions justify-content-end">
+                              <a
+                                href="/admin/handle-view-order/<%= orders[i].id %>"
+                                class="btn btn-outline-primary btn-sm"
+                                title="Xem chi tiết đơn hàng"
+                              >
+                                <i class="fas fa-eye me-1"></i>Chi tiết
+                              </a>
+                            </div>
+                          </td>
+                        </tr>
+                      <% } %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="7" class="admin-table-empty">
+                          <i class="fas fa-box-open fa-2x mb-2 d-block text-muted"></i>
+                          Chưa có đơn hàng nào được tạo.
+                        </td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </main>
         <%- include('../layout/footer') -%>

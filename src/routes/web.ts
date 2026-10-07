@@ -38,6 +38,7 @@ import {
 } from "controllers/auth/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
+import { viewAdminOrderPage } from "controllers/order/orders.controller";
 
 const router = express.Router();
 const multer = require("multer");
@@ -79,7 +80,9 @@ const webRoutes = (app: Express) => {
     updateUserPage,
   );
 
+  //routes order
   router.get("/admin/order", getAdminOrderPage);
+  router.get("/admin/handle-view-order/:id", viewAdminOrderPage);
 
   router.get("/admin/product", getAdminProductPage);
 

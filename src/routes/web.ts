@@ -20,10 +20,12 @@ import {
   getCreateProductPage,
   getDetailProductPage,
   getOrderDetailPage,
+  getThanksPage,
   handleDeleteCart,
   postAddProductToCart,
   postCreateProduct,
   postHandleCartToCheckout,
+  postPlaceOrder,
   updateProductPage,
   viewProductPage,
 } from "controllers/product/products.controller";
@@ -100,6 +102,8 @@ const webRoutes = (app: Express) => {
   router.get("/cart-detail", getOrderDetailPage);
   router.get("/checkout", getCheckoutPage);
   router.post("/handle-cart-to-checkout", postHandleCartToCheckout);
+  router.post("/place-order", postPlaceOrder);
+  router.get("/thanks", getThanksPage);
   router.post("/add-product-to-cart/:id", postAddProductToCart);
   router.post("/delete-cart/:id", handleDeleteCart);
   app.use("/", isAdmin, router);

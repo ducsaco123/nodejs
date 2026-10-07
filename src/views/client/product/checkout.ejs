@@ -57,6 +57,11 @@
             <div class="col-lg-7">
               <form action="/place-order" method="POST" id="checkoutForm" class="checkout-form">
                 <!-- Card 1: Thông tin giao nhận -->
+                 <input
+                          type="hidden"
+                          name="totalPrice"
+                          value="<%= totalPrice %>"
+                        />
                 <div class="checkout-card">
                   <div class="checkout-card-header">
                     <h2 class="checkout-card-title">

@@ -138,6 +138,58 @@ const updateCartDetailBeforeCheckout = async (
     });
   }
 };
+
+const handlePlaceOrder = async (
+  userId: number,
+  receiverName: string,
+  receiverPhone: string,
+  receiverAddress: string,
+  totalPrice: number,
+) => {
+  const cart = await prisma.cart.findUnique({
+    where: { userId },
+    include: {
+      cartDetails: true,
+    },
+  });
+
+  if (cart) {
+    //create order
+    const dataOrderDetail =
+      cart?.cartDetails?.map((item) => ({
+        price: item.price,
+        quantity: item.quantity,
+        productId: item.productId,
+      })) ?? [];
+    await prisma.order.create({
+      data: {
+        receiverAddress,
+        receiverName,
+        receiverPhone,
+        paymentMethod: "COD",
+        paymentStatus: "PAYMENT_UNPAID",
+        status: "PENDING",
+        totalPrice,
+        userId,
+        orderDetails: {
+          create: dataOrderDetail,
+        },
+      },
+    });
+
+    //remove cart detail + cart
+    await prisma.cartDetail.deleteMany({
+      where: {
+        cartId: cart.id,
+      },
+    });
+
+    //remove cart
+    await prisma.cart.delete({
+      where: { id: cart.id },
+    });
+  }
+};
 export {
   getProducts,
   getProductById,
@@ -145,4 +197,5 @@ export {
   getProductInCart,
   deleteCartDetail,
   updateCartDetailBeforeCheckout,
+  handlePlaceOrder,
 };

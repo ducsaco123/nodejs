@@ -60,7 +60,7 @@
                   </thead>
                   <tbody>
                     <% if (typeof cartDetails !== 'undefined' && cartDetails && cartDetails.length > 0) { %>
-                      <% cartDetails.forEach((cartDetail) => { %>
+                      <% cartDetails.forEach((cartDetail, index) => { %>
                         <tr>
                           <td>
                             <div class="cart-product-cell">
@@ -104,6 +104,7 @@
                                 aria-label="Số lượng"
                                 data-cart-detail-id="<%= cartDetail.id %>"
                                 data-cart-detail-price="<%= cartDetail.price %>"
+                                data-cart-detail-index="<%= index %>"
                               />
                               <div class="input-group-btn">
                                 <button
@@ -192,11 +193,31 @@
                   <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(typeof totalPrice !== 'undefined' ? totalPrice : 0) %>
                 </p>
               </div>
+              <form action="/handle-cart-to-checkout" method="post">
+                <div style="display: none">
+                <% cartDetails.forEach( function (cartDetail, index) { %>
+                  <div class="mb-3">
+                      <div class="form-group">
+                          <label>Id:</label>
+                          <input class="form-control" type="text" value="<%=cartDetail.id %>"
+                              name="cartDetails[<%= index %>][id]" />
+                      </div>
+                      <div class="form-group">
+                          <label>Quantity:</label>
+                          <input class="form-control" type="text"
+                              value="<%=cartDetail.quantity %>"
+                              name="cartDetails[<%= index %>][quantity]"
+                              id="cartDetails[<%= index %>]" />
+                      </div>
+                  </div>
+                  <% }) %>
+                </div>
+                <button class="cart-checkout-btn">
+                  <span>Tiến hành thanh toán</span>
+                  <i class="fas fa-arrow-right"></i>
+                </button>
 
-              <a href="/checkout" class="cart-checkout-btn">
-                <span>Tiến hành thanh toán</span>
-                <i class="fas fa-arrow-right"></i>
-              </a>
+              </form>
 
               <div class="cart-summary-security">
                 <i class="fas fa-shield-alt"></i>

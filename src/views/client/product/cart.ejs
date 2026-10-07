@@ -59,65 +59,95 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% cartDetails.forEach((cartDetail) => { %>
-
-                      <tr>
-                        <td>
-                          <div class="cart-product-cell">
-                            <a href="/product/<%= cartDetail.productId %>" class="cart-product-img">
-                              <img
-                                src="/images/product/<%= cartDetail.product.image %>"
-                              />
-                            </a>
-                            <div class="cart-product-info">
-                              <a href="/product/<%= cartDetail.productId %>" class="cart-product-title"
-                                ><%= cartDetail.product.name %></a
-                              >
-                              
+                    <% if (typeof cartDetails !== 'undefined' && cartDetails && cartDetails.length > 0) { %>
+                      <% cartDetails.forEach((cartDetail) => { %>
+                        <tr>
+                          <td>
+                            <div class="cart-product-cell">
+                              <a href="/product/<%= cartDetail.productId %>" class="cart-product-img">
+                                <img
+                                  src="/images/product/<%= cartDetail.product ? cartDetail.product.image : '' %>"
+                                  alt="<%= cartDetail.product ? cartDetail.product.name : 'Sản phẩm' %>"
+                                />
+                              </a>
+                              <div class="cart-product-info">
+                                <% if (cartDetail.product && cartDetail.product.factory) { %>
+                                  <span class="cart-product-brand"><%= cartDetail.product.factory %></span>
+                                <% } %>
+                                <a href="/product/<%= cartDetail.productId %>" class="cart-product-title">
+                                  <%= cartDetail.product ? cartDetail.product.name : 'Sản phẩm' %>
+                                </a>
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td class="cart-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(cartDetail.price) %></td>
-                        <td>
-                          <div class="cart-quantity-stepper mx-auto">
+                          </td>
+                          <td class="cart-price">
+                            <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(cartDetail.price) %>
+                          </td>
+                          <td>
+                            <!-- Khung số lượng đúng chuẩn selector của main.js: .quantity button, .btn-plus, .btn-minus, input với data-cart-detail-id và data-cart-detail-price -->
+                            <div class="input-group quantity cart-quantity-stepper mx-auto">
+                              <div class="input-group-btn">
+                                <button
+                                  class="cart-stepper-btn btn-minus"
+                                  type="button"
+                                  aria-label="Giảm số lượng"
+                                >
+                                  <i class="fas fa-minus"></i>
+                                </button>
+                              </div>
+                              <input
+                                type="text"
+                                class="cart-stepper-input"
+                                value="<%= cartDetail.quantity %>"
+                                min="1"
+                                max="99"
+                                aria-label="Số lượng"
+                                data-cart-detail-id="<%= cartDetail.id %>"
+                                data-cart-detail-price="<%= cartDetail.price %>"
+                              />
+                              <div class="input-group-btn">
+                                <button
+                                  class="cart-stepper-btn btn-plus"
+                                  type="button"
+                                  aria-label="Tăng số lượng"
+                                >
+                                  <i class="fas fa-plus"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="text-end">
+                            <!-- p[data-cart-detail-id] để main.js tự động cập nhật newPrice -->
+                            <p class="cart-total mb-0" data-cart-detail-id="<%= cartDetail.id %>">
+                              <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(cartDetail.price * cartDetail.quantity) %>
+                            </p>
+                          </td>
+                          <td class="text-center">
                             <button
-                              class="cart-stepper-btn btn-minus"
+                              class="cart-remove-btn"
                               type="button"
-                              aria-label="Giảm số lượng"
+                              aria-label="Xóa sản phẩm khỏi giỏ hàng"
+                              title="Xóa sản phẩm"
                             >
-                              <i class="fas fa-minus"></i>
+                              <i class="fas fa-trash-alt"></i>
                             </button>
-                            <input
-                              type="number"
-                              class="cart-stepper-input"
-                              value="<%= cartDetail.quantity %>"
-                              min="1"
-                              max="99"
-                              aria-label="Số lượng"
-                            />
-                            <button
-                              class="cart-stepper-btn btn-plus"
-                              type="button"
-                              aria-label="Tăng số lượng"
-                            >
-                              <i class="fas fa-plus"></i>
-                            </button>
+                          </td>
+                        </tr>
+                      <% }) %>
+                    <% } else { %>
+                      <tr>
+                        <td colspan="5" class="text-center py-5">
+                          <div class="cart-empty-state">
+                            <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
+                            <h4>Giỏ hàng của bạn đang trống</h4>
+                            <p class="text-muted mb-4">Hãy tiếp tục khám phá và chọn cho mình sản phẩm ưng ý nhé!</p>
+                            <a href="/#san-pham" class="cart-checkout-btn d-inline-flex px-4" style="width: auto;">
+                              Tiếp tục mua sắm
+                            </a>
                           </div>
-                        </td>
-                        <td class="cart-total text-end"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(cartDetail.price * cartDetail.quantity) %></td>
-                        <td class="text-center">
-                          <button
-                            class="cart-remove-btn"
-                            type="button"
-                            aria-label="Xóa sản phẩm khỏi giỏ hàng"
-                            title="Xóa sản phẩm"
-                          >
-                            <i class="fas fa-trash-alt"></i>
-                          </button>
                         </td>
                       </tr>
-                    <% })  %>
-                  
+                    <% } %>
                   </tbody>
                 </table>
               </div>
@@ -136,7 +166,10 @@
 
               <div class="cart-summary-row">
                 <span>Tạm tính</span>
-                <strong><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice) %></strong>
+                <!-- p[data-cart-total-price] để main.js tự động cập nhật tổng tiền -->
+                <p class="cart-summary-subtotal mb-0" data-cart-total-price="<%= typeof totalPrice !== 'undefined' ? totalPrice : 0 %>">
+                  <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(typeof totalPrice !== 'undefined' ? totalPrice : 0) %>
+                </p>
               </div>
 
               <div class="cart-summary-row">
@@ -151,7 +184,10 @@
                   <span>Tổng thanh toán</span>
                   <small>Đã bao gồm VAT</small>
                 </div>
-                <strong class="cart-total-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice) %></strong>
+                <!-- p[data-cart-total-price] để main.js cập nhật đồng thời -->
+                <p class="cart-total-price mb-0" data-cart-total-price="<%= typeof totalPrice !== 'undefined' ? totalPrice : 0 %>">
+                  <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(typeof totalPrice !== 'undefined' ? totalPrice : 0) %>
+                </p>
               </div>
 
               <a href="/checkout" class="cart-checkout-btn">
@@ -171,38 +207,15 @@
 
     <%- include('../layout/footer') -%>
 
-    <a href="#" class="back-to-top" aria-label="Lên đầu trang"
-      ><i class="fas fa-arrow-up"></i
-    ></a>
+    <a href="#" class="back-to-top" aria-label="Lên đầu trang">
+      <i class="fas fa-arrow-up"></i>
+    </a>
 
+    <!-- Scripts: Bao gồm jQuery, easing, owlcarousel và main.js để kích hoạt tính năng tính toán số lượng/giá tiền tự động -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-      document.querySelectorAll(".cart-quantity-stepper").forEach((stepper) => {
-        const input = stepper.querySelector(".cart-stepper-input");
-        const btnMinus = stepper.querySelector(".btn-minus");
-        const btnPlus = stepper.querySelector(".btn-plus");
-
-        if (btnMinus && input) {
-          btnMinus.addEventListener("click", () => {
-            const current = parseInt(input.value, 10) || 1;
-            if (current > 1) {
-              input.value = current - 1;
-              input.dispatchEvent(new Event("change", { bubbles: true }));
-            }
-          });
-        }
-
-        if (btnPlus && input) {
-          btnPlus.addEventListener("click", () => {
-            const current = parseInt(input.value, 10) || 1;
-            if (current < 99) {
-              input.value = current + 1;
-              input.dispatchEvent(new Event("change", { bubbles: true }));
-            }
-          });
-        }
-      });
-    </script>
+    <script src="/client/lib/easing/easing.min.js"></script>
+    <script src="/client/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="/client/js/main.js"></script>
   </body>
 </html>

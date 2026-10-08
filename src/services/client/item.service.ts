@@ -107,9 +107,11 @@ const deleteCartDetail = async (
   userId: number,
   sumCart: number,
 ) => {
-  await prisma.cartDetail.delete({
+  const currentCardDetail = await prisma.cartDetail.delete({
     where: { id },
   });
+
+  const quantity = currentCardDetail.quantity;
   if (sumCart === 1) {
     await prisma.cart.delete({
       where: { userId },
@@ -119,7 +121,7 @@ const deleteCartDetail = async (
       where: { userId },
       data: {
         sum: {
-          decrement: 1,
+          decrement: quantity,
         },
       },
     });
@@ -190,6 +192,22 @@ const handlePlaceOrder = async (
     });
   }
 };
+
+const getOrderHistory = async (userId: number) => {
+  const history = await prisma.order.findMany({
+    where: { userId },
+    include: {
+      orderDetails: {
+        include: { product: true },
+      },
+    },
+    orderBy: {
+      id: "desc",
+    },
+  });
+
+  return history ?? [];
+};
 export {
   getProducts,
   getProductById,
@@ -198,4 +216,5 @@ export {
   deleteCartDetail,
   updateCartDetailBeforeCheckout,
   handlePlaceOrder,
+  getOrderHistory,
 };

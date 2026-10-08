@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { handleViewOrder } from "services/admin/order.service";
+import { getOrderHistory } from "services/client/item.service";
 
 const viewAdminOrderPage = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -16,4 +17,15 @@ const viewAdminOrderPage = async (req: Request, res: Response) => {
   });
 };
 
-export { viewAdminOrderPage };
+const getOrderHistoryPage = async (req: Request, res: Response) => {
+  const user = req.user;
+  if (!user) return res.redirect("/login");
+
+  const ordersHistory = await getOrderHistory(user.id);
+  return res.render("client/product/history.ejs", {
+    ordersHistory: ordersHistory || [],
+    user,
+  });
+};
+
+export { viewAdminOrderPage, getOrderHistoryPage };

@@ -172,10 +172,12 @@
     const price = input.attr("data-cart-detail-price");
     const id = input.attr("data-cart-detail-id");
 
-    const priceElement = $(`p[data-cart-detail-id='${id}']`);
-    if (priceElement) {
-      const newPrice = +price * newVal;
-      priceElement.text(formatCurrency(newPrice));
+    if (price && id) {
+      const priceElement = $(`p[data-cart-detail-id='${id}']`);
+      if (priceElement && priceElement.length) {
+        const newPrice = +price * newVal;
+        priceElement.text(formatCurrency(newPrice));
+      }
     }
 
     //update total cart price

@@ -38,7 +38,10 @@ import {
 } from "controllers/auth/auth.controller";
 import passport from "passport";
 import { isAdmin, isLogin } from "src/middleware/auth";
-import { viewAdminOrderPage } from "controllers/order/orders.controller";
+import {
+  getOrderHistoryPage,
+  viewAdminOrderPage,
+} from "controllers/order/orders.controller";
 
 const router = express.Router();
 const multer = require("multer");
@@ -109,6 +112,8 @@ const webRoutes = (app: Express) => {
   router.get("/thanks", getThanksPage);
   router.post("/add-product-to-cart/:id", postAddProductToCart);
   router.post("/delete-cart/:id", handleDeleteCart);
+
+  router.get("/order-history", getOrderHistoryPage);
   app.use("/", isAdmin, router);
 };
 

@@ -170,9 +170,10 @@ const deleteProductPage = async (req: Request, res: Response) => {
 const postAddProductToCart = async (req: Request, res: Response) => {
   const { id } = req.params;
   const user = req.user;
+  const quantity = req.body?.quantity ? +req.body.quantity : 1;
 
   if (user) {
-    await getProductToCart(1, +id, user);
+    await getProductToCart(quantity, +id, user);
   } else {
     return res.redirect("/login");
   }

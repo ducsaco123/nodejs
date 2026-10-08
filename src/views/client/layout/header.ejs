@@ -68,6 +68,30 @@
                     <small><%= user.username %></small>
                   </div>
                 </div>
+                <div class="site-account-nav">
+                  <% if (typeof user.role !== 'undefined' && user.role && user.role.name === 'ADMIN') { %>
+                    <a href="/admin" class="site-account-nav-item">
+                      <span class="site-account-nav-icon site-account-nav-icon--admin" aria-hidden="true">
+                        <i class="fas fa-user-shield"></i>
+                      </span>
+                      <span class="site-account-nav-text">
+                        <strong>Trang quản trị</strong>
+                        <small>Quản lý hệ thống</small>
+                      </span>
+                      <i class="fas fa-chevron-right site-account-nav-arrow" aria-hidden="true"></i>
+                    </a>
+                  <% } %>
+                  <a href="/order-history" class="site-account-nav-item">
+                    <span class="site-account-nav-icon" aria-hidden="true">
+                      <i class="fas fa-history"></i>
+                    </span>
+                    <span class="site-account-nav-text">
+                      <strong>Lịch sử mua hàng</strong>
+                      <small>Xem đơn hàng đã đặt</small>
+                    </span>
+                    <i class="fas fa-chevron-right site-account-nav-arrow" aria-hidden="true"></i>
+                  </a>
+                </div>
                 <form class="site-account-logout-form" method="post" action="/logout">
                   <button class="site-account-logout" type="submit"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Đăng xuất</button>
                 </form>

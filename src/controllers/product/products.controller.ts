@@ -187,8 +187,12 @@ const getOrderDetailPage = async (req: Request, res: Response) => {
   const totalPrice = cartDetails
     ?.map((item) => +item.price * +item.quantity)
     ?.reduce((a, b) => a + b, 0);
-
-  return res.render("client/product/cart.ejs", { cartDetails, totalPrice });
+  const cartId = cartDetails.length ? cartDetails[0].cartId : 0;
+  return res.render("client/product/cart.ejs", {
+    cartDetails,
+    totalPrice,
+    cartId,
+  });
 };
 
 const getCheckoutPage = async (req: Request, res: Response) => {
@@ -217,10 +221,12 @@ const handleDeleteCart = async (req: Request, res: Response) => {
 const postHandleCartToCheckout = async (req: Request, res: Response) => {
   const user = req.user;
   if (!user) return res.redirect("/login");
+
+  const { cartId } = req.body;
   const currentCardDetail: { id: string; quantity: string }[] =
     req.body?.cartDetails ?? [];
 
-  await updateCartDetailBeforeCheckout(currentCardDetail);
+  await updateCartDetailBeforeCheckout(currentCardDetail, cartId);
   return res.redirect("/checkout");
 };
 
@@ -229,13 +235,18 @@ const postPlaceOrder = async (req: Request, res: Response) => {
   if (!user) return res.redirect("/login");
 
   const { receiverName, receiverPhone, receiverAddress, totalPrice } = req.body;
-  await handlePlaceOrder(
+  const message = await handlePlaceOrder(
     user.id,
     receiverName,
     receiverPhone,
     receiverAddress,
     +totalPrice,
   );
+
+  if (message) {
+    res.redirect("/checkout");
+    return;
+  }
   return res.redirect("/thanks");
 };
 

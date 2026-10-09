@@ -3,6 +3,7 @@ import {
   deleteUserPage,
   getCreateUserPage,
   getHomePage,
+  getProductFilterPage,
   postCreateUserPage,
   updateUserPage,
   viewUserPage,
@@ -90,6 +91,7 @@ const webRoutes = (app: Express) => {
   router.get("/admin/product", getAdminProductPage);
 
   //routes product
+  router.get("/product", getProductFilterPage);
   router.get("/product/:id", getDetailProductPage);
   router.get("/admin/create-product", getCreateProductPage);
   router.post(

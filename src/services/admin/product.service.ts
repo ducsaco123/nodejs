@@ -1,8 +1,22 @@
 import { prisma } from "config/client";
+import { TOTAL_ITEMS_PER_PAGE } from "config/constant";
 
-const getAllProducts = async () => {
-  const products = await prisma.product.findMany();
+const getAllProducts = async (page: number) => {
+  const pageSize = TOTAL_ITEMS_PER_PAGE;
+  const skip = (page - 1) * pageSize;
+  const products = await prisma.product.findMany({
+    skip,
+    take: pageSize,
+  });
   return products;
+};
+
+const countTotalProductPages = async () => {
+  const totalItem = await prisma.product.count();
+  const pageSize = TOTAL_ITEMS_PER_PAGE;
+  const totalPages = Math.ceil(totalItem / pageSize);
+
+  return totalPages;
 };
 
 const handleCreateProduct = async (
@@ -76,4 +90,5 @@ export {
   handleDeleteProduct,
   handleViewProduct,
   handleUpdateProduct,
+  countTotalProductPages,
 };

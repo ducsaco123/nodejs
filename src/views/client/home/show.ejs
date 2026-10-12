@@ -28,7 +28,11 @@
             </div>
             <span class="catalog-count">
               <i class="fas fa-layer-group" aria-hidden="true"></i>
-              Trang <%= typeof page !== 'undefined' ? page : 1 %> / <%= (typeof totalPages !== 'undefined' && totalPages > 0) ? totalPages : 1 %>
+              <% if (products.length > 0 && typeof totalPages !== 'undefined' && totalPages > 0) { %>
+                Trang <%= Math.min(page, totalPages) %> / <%= totalPages %>
+              <% } else { %>
+                0 sản phẩm
+              <% } %>
             </span>
           </div>
           <div class="row g-4">
@@ -48,7 +52,7 @@
                         <strong class="product-price"><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></strong>
                       </div>
                       <form action="/add-product-to-cart/<%= product.id %>" method="post" class="product-cart-form">
-                        <button type="submit" class="product-add-cart" aria-label="Thêm <%= product.name %> vào giỏ hàng" title="Thêm vào giỏ hàng">
+                        <button data-product-id="<%= product.id %>" type="submit" class="btnAddToCartHomepage product-add-cart" aria-label="Thêm <%= product.name %> vào giỏ hàng" title="Thêm vào giỏ hàng">
                           <i class="fas fa-cart-plus" aria-hidden="true"></i>
                           <span>Add to cart</span>
                         </button>
@@ -62,11 +66,13 @@
 
           <% if (!products.length) { %>
             <div class="catalog-empty">
-              <i class="fas fa-laptop" aria-hidden="true"></i>
+              <div class="catalog-empty-icon">
+                <i class="fas fa-laptop" aria-hidden="true"></i>
+              </div>
               <h3>Chưa có sản phẩm</h3>
               <p>Danh sách laptop hiện chưa có sản phẩm nào trên trang này.</p>
               <% if (typeof page !== 'undefined' && page > 1) { %>
-                <div>
+                <div class="catalog-empty-actions">
                   <a href="/#san-pham" class="catalog-empty-btn">
                     <i class="fas fa-arrow-left" aria-hidden="true"></i>
                     <span>Trở về trang 1</span>

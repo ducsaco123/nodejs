@@ -49,7 +49,7 @@ const getProductFilterPage = async (req: Request, res: Response) => {
   // const products = await getProducts(currentPage, 6);
   // const totalPages = await countTotalProductPages(6);
 
-  const data = await getProductWithFilter(
+  let data = await getProductWithFilter(
     currentPage,
     6,
     factory,
@@ -57,10 +57,16 @@ const getProductFilterPage = async (req: Request, res: Response) => {
     price,
     sort,
   );
+
+  if (currentPage > data.totalPages && data.totalPages > 0) {
+    currentPage = 1;
+    data = await getProductWithFilter(1, 6, factory, target, price, sort);
+  }
+
   return res.render("client/product/filter.ejs", {
     products: data.products,
     totalPages: +data.totalPages,
-    page: +currentPage,
+    page: data.totalPages > 0 ? +currentPage : 1,
   });
 };
 

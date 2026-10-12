@@ -259,9 +259,8 @@
     const currentUrl = new URL(window.location.href);
     const searchParams = currentUrl.searchParams;
 
-    const currentPage = searchParams?.get("page") ?? "1";
-    // Add or update query parameters
-    searchParams.set("page", currentPage);
+    // Reset page to 1 when applying new filter
+    searchParams.set("page", "1");
     searchParams.set("sort", sortValue);
 
     //reset
@@ -329,5 +328,235 @@
       "checked",
       true,
     );
+  }
+
+  // Modern Toast Notification Plugin
+  $.toast = function (options) {
+    if (typeof options === "string") {
+      options = { text: options };
+    }
+    const settings = $.extend(
+      {
+        heading: "",
+        text: "",
+        icon: "info",
+        position: "top-right",
+        hideAfter: 3500,
+        loader: true,
+      },
+      options
+    );
+
+    // Auto-detect icon if not explicitly set
+    if (!options.icon) {
+      const headingLower = (settings.heading || "").toLowerCase();
+      const textLower = (settings.text || "").toLowerCase();
+      if (
+        headingLower.includes("lỗi") ||
+        textLower.includes("lỗi") ||
+        textLower.includes("thất bại")
+      ) {
+        settings.icon = "error";
+      } else if (
+        headingLower.includes("thành công") ||
+        textLower.includes("thành công") ||
+        headingLower.includes("giỏ hàng")
+      ) {
+        settings.icon = "success";
+      } else {
+        settings.icon = "info";
+      }
+    }
+
+    // Ensure container exists
+    const containerClass = "app-toast-container " + settings.position;
+    let $container = $("." + settings.position + ".app-toast-container");
+    if (!$container.length) {
+      $container = $("<div>", {
+        class: containerClass,
+      }).appendTo("body");
+    }
+
+    // Icon HTML
+    let iconHtml = '<i class="fas fa-info-circle"></i>';
+    if (settings.icon === "error") {
+      iconHtml = '<i class="fas fa-exclamation-circle"></i>';
+    } else if (settings.icon === "success") {
+      iconHtml = '<i class="fas fa-check-circle"></i>';
+    } else if (settings.icon === "warning") {
+      iconHtml = '<i class="fas fa-exclamation-triangle"></i>';
+    }
+
+    // Check if login prompt should show direct link
+    const isLoginError =
+      settings.icon === "error" &&
+      (settings.text.toLowerCase().includes("đăng nhập") ||
+        settings.heading.toLowerCase().includes("đăng nhập"));
+
+    // Build toast element
+    const $toast = $(`
+      <div class="app-toast app-toast--${settings.icon}" role="alert" aria-live="assertive">
+        <div class="app-toast-icon">${iconHtml}</div>
+        <div class="app-toast-content">
+          ${settings.heading ? `<h4 class="app-toast-heading">${settings.heading}</h4>` : ""}
+          <p class="app-toast-text">${settings.text}</p>
+          ${isLoginError ? `<a href="/login" class="app-toast-action"><i class="fas fa-sign-in-alt me-1"></i>Đăng nhập ngay</a>` : ""}
+        </div>
+        <button type="button" class="app-toast-close" aria-label="Đóng thông báo"><i class="fas fa-times"></i></button>
+        ${settings.loader ? `<div class="app-toast-loader"><div class="app-toast-loader-bar" style="animation-duration: ${settings.hideAfter}ms"></div></div>` : ""}
+      </div>
+    `);
+
+    $container.append($toast);
+
+    // Trigger smooth entrance
+    setTimeout(function () {
+      $toast.addClass("app-toast--show");
+    }, 15);
+
+    // Timer management with pause-on-hover
+    let timer = null;
+    let startTime = Date.now();
+    let remaining = settings.hideAfter;
+
+    function startTimer() {
+      if (settings.hideAfter && settings.hideAfter > 0) {
+        timer = setTimeout(function () {
+          closeToast();
+        }, remaining);
+      }
+    }
+
+    function closeToast() {
+      if (timer) clearTimeout(timer);
+      $toast.removeClass("app-toast--show").addClass("app-toast--hide");
+      setTimeout(function () {
+        $toast.remove();
+        if (!$container.children().length) {
+          $container.remove();
+        }
+      }, 350);
+    }
+
+    // Close on button click
+    $toast.find(".app-toast-close").on("click", function () {
+      closeToast();
+    });
+
+    // Pause on hover
+    $toast.on("mouseenter", function () {
+      if (timer) clearTimeout(timer);
+      remaining -= Date.now() - startTime;
+      if (remaining < 500) remaining = 500;
+    });
+
+    $toast.on("mouseleave", function () {
+      startTime = Date.now();
+      startTimer();
+    });
+
+    startTimer();
+    return $toast;
+  };
+
+  //handle add to cart with ajax
+  $(".btnAddToCartHomepage").click(function (event) {
+    event.preventDefault();
+
+    if (!isLogin()) {
+      $.toast({
+        heading: "Lỗi thao tác",
+        text: "Bạn cần đăng nhập tài khoản",
+        position: "top-right",
+        icon: "error",
+      });
+      return;
+    }
+
+    const productId = $(this).attr("data-product-id");
+
+    $.ajax({
+      url: `${window.location.origin}/api/add-product-to-cart`,
+      type: "POST",
+      data: JSON.stringify({ quantity: 1, productId }),
+      contentType: "application/json",
+
+      success: function (response) {
+        const sum = +response.data;
+        //update cart
+        $("#sumCart").text(sum);
+        //show message
+        $.toast({
+          heading: "Giỏ hàng",
+          text: "Thêm sản phẩm vào giỏ hàng thành công",
+          position: "top-right",
+          icon: "success",
+        });
+      },
+      error: function (response) {
+        $.toast({
+          heading: "Có lỗi xảy ra",
+          text: "Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại sau.",
+          position: "top-right",
+          icon: "error",
+        });
+        console.log("error: ", response);
+      },
+    });
+  });
+
+  $(".btnAddToCartDetail").click(function (event) {
+    event.preventDefault();
+
+    if (!isLogin()) {
+      $.toast({
+        heading: "Lỗi thao tác",
+        text: "Bạn cần đăng nhập tài khoản",
+        position: "top-right",
+        icon: "error",
+      });
+      return;
+    }
+
+    const productId = $(this).attr("data-product-id");
+    const quantity = $("#detailQuantity").val() || 1;
+
+    $.ajax({
+      url: `${window.location.origin}/api/add-product-to-cart`,
+      type: "POST",
+      data: JSON.stringify({ quantity, productId }),
+      contentType: "application/json",
+
+      success: function (response) {
+        const sum = +response.data;
+        //update cart
+        $("#sumCart").text(sum);
+        //show message
+        $.toast({
+          heading: "Giỏ hàng",
+          text: "Thêm sản phẩm vào giỏ hàng thành công",
+          position: "top-right",
+          icon: "success",
+        });
+      },
+      error: function (response) {
+        $.toast({
+          heading: "Có lỗi xảy ra",
+          text: "Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại sau.",
+          position: "top-right",
+          icon: "error",
+        });
+        console.log("error: ", response);
+      },
+    });
+  });
+
+  function isLogin() {
+    const navElement = $("#navbarCollapse");
+    const childLogin = navElement.find("a.a-login");
+    if (childLogin.length > 0) {
+      return false;
+    }
+    return true;
   }
 })(jQuery);

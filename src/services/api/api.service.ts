@@ -41,6 +41,9 @@ const handleUserLogin = async (username: string, password: string) => {
   //Check user exist in DB
   const user = await prisma.user.findUnique({
     where: { username },
+    include: {
+      role: true,
+    },
   });
   if (!user) {
     throw new Error(`Username: ${username} not found`);
@@ -56,6 +59,7 @@ const handleUserLogin = async (username: string, password: string) => {
     id: user.id,
     username: user.username,
     roleId: user.roleId,
+    roleName: user.role.name,
     accountType: user.accountType,
     avatar: user.avatar,
   };
